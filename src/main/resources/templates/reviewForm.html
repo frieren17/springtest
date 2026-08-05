@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+	<h1>口コミ投稿</h1>
+	
+	<div th:replace="common/header :: header"></div>
+
+	<form th:action="@{/review/add}"
+	      method="post"
+	      enctype="multipart/form-data">
+
+	    <!-- 商品ID -->
+	    <input type="hidden"
+	           name="productId"
+	           th:value="${productId}">
+
+	    <div>
+	        ユーザー名（任意）
+	        <input type="text" name="dummyUserName">
+	    </div>
+
+	    <div>
+	        評価
+	        <select name="rating">
+	            <option value="1">1</option>
+	            <option value="2">2</option>
+	            <option value="3">3</option>
+	            <option value="4">4</option>
+	            <option value="5">5</option>
+	        </select>
+	    </div>
+
+	    <div>
+	        メールアドレス
+	        <input type="email" name="contactEmail">
+	    </div>
+
+	    <div>
+	        コメント
+	        <textarea name="comment"></textarea>
+	    </div>
+
+	    <div>
+	        画像
+	        <input type="file" name="imageFile">
+	    </div>
+
+	    <button type="submit">
+	        投稿
+	    </button>
+
+	</form>
+	
+	<div th:replace="~{common/footer :: footer}"></div>
+</body>
+</html>

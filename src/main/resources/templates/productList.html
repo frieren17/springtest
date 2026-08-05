@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>商品一覧</title>
+</head>
+<body>
+
+	<h1>商品一覧</h1>
+	
+	<div th:replace="common/header :: header"></div>
+	
+	<div th:each="product : ${products}">
+	
+	    <a th:href="@{/product/{id}(id=${product.productId})}">
+	        <img th:src="@{${product.imgPath}}" width="150">
+	    </a>
+	
+	    <p>
+	        商品名：
+	        <span th:text="${product.productName}"></span>
+	    </p>
+	
+	    <p>
+	        メーカー名：
+	        <span th:text="${product.company.companyName}"></span>
+	    </p>
+	
+	    <p>
+	        価格：
+	        <span th:text="${product.price}"></span>円
+	    </p>
+	
+	    <p>
+	        税込価格：
+	        <span th:text="${product.taxPrice}"></span>円
+	    </p>
+	
+	    <hr>
+	
+	</div>
+		
+	<div th:replace="common/footer :: footer"></div>
+	</body>
+</html>

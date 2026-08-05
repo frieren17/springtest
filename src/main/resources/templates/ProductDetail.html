@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+	<h1>商品詳細画面</h1>
+	
+	<div th:replace="common/header :: header"></div>
+	
+	<div>
+		商品名：
+		<span th:text="${product.productName}"></span>
+	</div>
+	<div>
+		メーカー名：
+		<span th:text="${product.company.companyName}"></span>
+	</div>
+	<div>
+		価格：
+		<span th:text="${product.price}"></span>円
+	</div>
+	<div>
+		税込価格：
+		<span th:text="${product.taxPrice}"></span>円
+	</div>
+	<img th:src="@{${product.imgPath}}">
+	<div>
+		在庫数：
+		<span th:text="${product.stock}"></span>
+	</div>
+	
+	<!--/* <h2>口コミ投稿</h2>
+
+	<form th:action="@{/review/add}" method="post"> */-->
+
+	    <!-- 商品ID -->
+	    <!--/* <input type="hidden"
+	           name="productId"
+	           th:value="${product.productId}">
+		<input type="hidden" name="userId" value="1">
+		
+		<div>
+		    表示名（任意）
+		    <input type="text" name="dummy_user_name">
+		</div>
+
+	    <div>
+	        評価：
+	        <select name="rating">
+
+	            <option value="1">1</option>
+	            <option value="2">2</option>
+	            <option value="3">3</option>
+	            <option value="4">4</option>
+	            <option value="5">5</option>
+
+	        </select>
+	    </div>
+
+	    <div>
+	        コメント：
+	        <textarea name="comment"></textarea>
+	    </div>
+
+	    <button type="submit">
+	        投稿
+	    </button>
+
+	</form> */-->
+	
+	<a th:href="@{/review/form/{id}(id=${product.productId})}">口コミ</a>
+	
+	<h2><口コミ></h2>
+
+	<div th:if="${#lists.isEmpty(reviews)}">
+	    口コミはまだありません
+	</div>
+
+	<div th:each="review : ${reviews}">
+
+	    <hr>
+
+		<div>
+		    ユーザー：
+		    <!--/*<span th:text="${review.user != null ? review.user.userName : '名無し'}"></span>*/-->
+			<span th:text="
+			${review.dummyUserName != null
+			&& review.dummyUserName != ''
+			? review.dummyUserName
+			: review.user.userName}">
+			</span>
+		</div>
+
+	    <div>
+	        評価(5段階)：
+	        <span th:text="${review.rating}"></span>
+	    </div>
+
+	    <div>
+	        コメント：
+	        <span th:text="${review.comment}"></span>
+	    </div>
+
+	    <div>
+	        投稿日時：
+			<span th:text=
+			"${#temporals.format(review.createdAt,
+			'yyyy/MM/dd HH:mm')}">
+			</span>
+	    </div>
+
+	</div>
+	
+	<div th:replace="~{common/footer :: footer}"></div>
+</body>
+</html>

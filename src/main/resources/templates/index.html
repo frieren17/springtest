@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+	
+	<div th:replace="~{common/header :: layout-header}"></div>
+	
+	<div>TOP画面</div>
+	<div>セール品</div>
+	
+	<div th:each="product : ${products}">
+	    <div th:text="${product.productName}"></div>
+	    <a th:href="@{/product/{id}(id=${product.productId})}">
+	        <img th:src="@{${product.imgPath}}" width="150">
+	    </a>
+	</div>
+	
+	<!--<div th:text="${session.userId}"></div>-->
+	
+	<div th:replace="~{common/footer :: footer}"></div>
+</body>
+</html>
