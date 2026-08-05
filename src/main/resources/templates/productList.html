@@ -8,7 +8,7 @@
 
 	<h1>商品一覧</h1>
 	
-	<div th:replace="common/header :: header"></div>
+	<div th:replace="~{common/header :: header}"></div>
 	
 	<div th:each="product : ${products}">
 	
@@ -40,6 +40,6 @@
 	
 	</div>
 		
-	<div th:replace="common/footer :: footer"></div>
+	<div th:replace="~{common/footer :: footer}"></div>
 	</body>
 </html>
