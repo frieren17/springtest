@@ -10,6 +10,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import jp.co.sss.cytech.entity.Product;
 import jp.co.sss.cytech.entity.Review;
@@ -40,44 +42,7 @@ public class indexController {
 		System.out.println("ユーザーID:" + userId);
 		return "login";
 	}
-	
-//	@RequestMapping(path = "/doLogin", method = RequestMethod.POST)
-//	public String doLoginPost(Integer userId) {
-//		System.out.println("ユーザーID:" + userId);
-//		return "login";
-//	}
-//	@RequestMapping(path = "/doLogin", method = RequestMethod.POST)
-//	public String doLoginPost(
-//	        String username,
-//	        String password,
-//	        HttpSession session,
-//	        Model model) {
-//		System.out.println("username = " + username);
-//	    // メールアドレスで検索
-//	    User user = userRepository.findByEmail(username);
-//	    System.out.println("user = " + user);
-//	    // ユーザーが存在しない
-//	    if (user == null) {
-//	        model.addAttribute("message", "メールアドレスまたはパスワードが違います");
-//	        return "loginOnSession";
-//	    }
-//
-//	    // パスワード確認
-////	    if (!user.getPassword().equals(password)) {
-////	        model.addAttribute("message", "メールアドレスまたはパスワードが違います");
-////	        return "loginOnSession";
-////	    }
-//	    if (!passwordEncoder.matches(password, user.getPassword())) {
-//	        System.out.println("password mismatch");
-//	        return "loginOnSession";
-//	    }
-//
-//	    // セッションへ保存
-//	    session.setAttribute("loginUser", user);
-//
-//	    return "redirect:/";
-//	}
-	
+		
 	@RequestMapping(path = "/loginUsingForm", method = RequestMethod.GET)
 	public String loginUsingForm() {
 		return "loginUsingForm";
@@ -186,5 +151,54 @@ public class indexController {
 	    return "productList";
 	}
 	
-	
+	@RequestMapping(path = "/cart/add", method = RequestMethod.POST)
+	public String addCart(
+	        @RequestParam("productId") Integer productId,
+	        @RequestParam("quantity") Integer quantity,
+	        RedirectAttributes redirectAttributes) {
+
+	    // 商品取得
+	    Product product =
+	            productRepository.findById(productId)
+	                    .orElse(null);
+
+	    // 商品が存在しない場合
+	    if (product == null) {
+	        redirectAttributes.addFlashAttribute(
+	                "errorMessage",
+	                "商品が存在しません。"
+	        );
+
+	        return "redirect:/product/list";
+	    }
+
+	    // 数量チェック
+	    if (quantity == null || quantity <= 0) {
+
+	        redirectAttributes.addFlashAttribute(
+	                "errorMessage",
+	                "数量が正しくありません。"
+	        );
+
+	        return "redirect:/product/" + productId;
+	    }
+
+	    // 在庫チェック
+	    if (quantity > product.getStock()) {
+
+	        redirectAttributes.addFlashAttribute(
+	                "errorMessage",
+	                "在庫が不足しています。"
+	        );
+
+	        return "redirect:/product/" + productId;
+	    }
+
+	    // ここでカートへ追加
+	    // ↓↓↓
+	    // Cart処理をここに入れる
+	    // ↑↑↑
+
+	    return "redirect:/cart";
+	}
 }

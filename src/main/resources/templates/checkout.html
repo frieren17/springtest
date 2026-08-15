@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>カート追加画面</title>
+</head>
+<body>
+	<div th:replace="~{common/header :: header}"></div>
+
+	    <h1>カート追加画面</h1>
+
+
+	    <!-- カートが空の場合 -->
+	    <div th:if="${#lists.isEmpty(cartList)}">
+
+	        <p>カートに商品がありません。</p>
+
+	    </div>
+
+
+	    <!-- カートに商品がある場合 -->
+	    <div th:unless="${#lists.isEmpty(cartList)}">
+
+	        <div th:each="cart : ${cartList}">
+
+	            <hr>
+				
+				<img th:src="@{${cart.product.imgPath}}">
+
+	            <div>	            
+	                商品名：
+	                <span th:text="${cart.product.productName}"></span>
+	            </div>
+	            
+	            <div>
+	              個数：
+	                <span th:text="${cart.quantity}"></span>個
+	            </div>
+
+	            <div>
+	                カート内の合計：
+	                <span
+	                    th:text="${cart.product.taxPrice * cart.quantity}">
+	                </span>円
+	            </div>
+
+	        </div>
+
+	        <hr>
+
+	    </div>
+
+		<form th:action="@{/}" method="get">
+		    <button type="submit">TOP画面に戻る</button>
+		</form>
+
+	    <div th:replace="~{common/footer :: footer}"></div>
+</body>
+</html>

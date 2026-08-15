@@ -31,44 +31,52 @@
 		<span th:text="${product.stock}"></span>
 	</div>
 	
-	<!--/* <h2>口コミ投稿</h2>
-
-	<form th:action="@{/review/add}" method="post"> */-->
-
-	    <!-- 商品ID -->
-	    <!--/* <input type="hidden"
-	           name="productId"
-	           th:value="${product.productId}">
-		<input type="hidden" name="userId" value="1">
-		
-		<div>
-		    表示名（任意）
-		    <input type="text" name="dummy_user_name">
-		</div>
+	
+	
+	<!-- カート追加 -->
+	<div>
 
 	    <div>
-	        評価：
-	        <select name="rating">
+	        <label for="quantity">数量：</label>
 
-	            <option value="1">1</option>
-	            <option value="2">2</option>
-	            <option value="3">3</option>
-	            <option value="4">4</option>
-	            <option value="5">5</option>
-
+	        <select id="quantity">
+	            <option
+	                th:each="i : ${#numbers.sequence(1, product.stock)}"
+	                th:value="${i}"
+	                th:text="${i}">
+	            </option>
 	        </select>
 	    </div>
 
 	    <div>
-	        コメント：
-	        <textarea name="comment"></textarea>
+	        税抜き合計：
+	        <span id="subtotal"></span>円
 	    </div>
 
-	    <button type="submit">
-	        投稿
-	    </button>
+	    <div>
+	        税込み合計：
+	        <span id="total"></span>円
+	    </div>
 
-	</form> */-->
+	    <form
+	        th:action="@{/cart/add/{id}(id=${product.productId})}"
+	        method="post">
+
+	        <input
+	            type="hidden"
+	            id="cartQuantity"
+	            name="quantity"
+	            value="1">
+
+	        <button type="submit">
+	            カートに入れる
+	        </button>
+
+	    </form>
+
+	</div>
+	
+	
 	
 	<a th:href="@{/review/form/{id}(id=${product.productId})}">口コミ</a>
 	
@@ -84,7 +92,7 @@
 
 		<div>
 		    ユーザー：
-		    <!--/*<span th:text="${review.user != null ? review.user.userName : '名無し'}"></span>*/-->
+		    
 			<span th:text="
 			${review.dummyUserName != null
 			&& review.dummyUserName != ''
@@ -114,5 +122,56 @@
 	</div>
 	
 	<div th:replace="~{common/footer :: footer}"></div>
+	
+	
+	<script th:inline="javascript">
+
+	    const price = /*[[${product.price}]]*/ 0;
+	    const taxPrice = /*[[${product.taxPrice}]]*/ 0;
+
+	    const quantitySelect =
+	        document.getElementById("quantity");
+
+	    const subtotalElement =
+	        document.getElementById("subtotal");
+
+	    const totalElement =
+	        document.getElementById("total");
+
+	    const cartQuantity =
+	        document.getElementById("cartQuantity");
+
+
+	    function updatePrice() {
+
+	        const quantity =
+	            Number(quantitySelect.value);
+
+	        const subtotal =
+	            price * quantity;
+
+	        const total =
+	            taxPrice * quantity;
+
+	        subtotalElement.textContent =
+	            subtotal.toLocaleString();
+
+	        totalElement.textContent =
+	            total.toLocaleString();
+
+	        cartQuantity.value = quantity;
+	    }
+
+
+	    quantitySelect.addEventListener(
+	        "change",
+	        updatePrice
+	    );
+
+
+	    // 初期表示
+	    updatePrice();
+
+	</script>
 </body>
 </html>
