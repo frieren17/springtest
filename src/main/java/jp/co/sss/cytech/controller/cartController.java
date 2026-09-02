@@ -32,6 +32,12 @@ public class cartController {
         this.productRepository = productRepository;
     }
 
+
+    /*
+     * ==========================================
+     * カートに商品を追加
+     * ==========================================
+     */
     @PostMapping("/cart/add/{id}")
     public String addCart(
             @PathVariable Integer id,
@@ -44,6 +50,7 @@ public class cartController {
         Product product =
                 productRepository.findById(id).orElse(null);
 
+        // 商品が存在しない場合
         if (product == null) {
             return "redirect:/";
         }
@@ -73,7 +80,7 @@ public class cartController {
             int newQuantity =
                     cart.getQuantity() + quantity;
 
-            // 合計数量が在庫を超える場合
+            // カート内の合計数量が在庫を超える場合
             if (newQuantity > product.getStock()) {
                 return "redirect:/product/" + id;
             }
@@ -94,11 +101,21 @@ public class cartController {
             cartRepository.save(cart);
         }
 
-        return "redirect:/cart";
+        /*
+         * 商品追加後はカート追加画面へ
+         */
+        return "redirect:/cart/add";
     }
 
-    @GetMapping("/cart")
-    public String cart(
+
+    /*
+     * ==========================================
+     * カート追加画面
+     * checkout.html
+     * ==========================================
+     */
+    @GetMapping("/cart/add")
+    public String cartAdd(
             @AuthenticationPrincipal LoginUserDetails loginUser,
             Model model) {
 
@@ -111,7 +128,59 @@ public class cartController {
 
         return "checkout";
     }
-    
+
+
+    /*
+     * ==========================================
+     * カート詳細画面
+     * checkoutDetail.html
+     * ==========================================
+     */
+    @GetMapping("/cart")
+    public String cart(
+            @AuthenticationPrincipal LoginUserDetails loginUser,
+            Model model) {
+
+        List<Cart> cartList =
+                cartRepository.findByUser_UserId(
+                        loginUser.getUser().getUserId()
+                );
+
+        model.addAttribute("cartList", cartList);
+
+        /*
+         * 税抜き合計金額
+         */
+        int totalPrice = 0;
+
+        /*
+         * 税込み合計金額
+         */
+        int totalTaxPrice = 0;
+
+        for (Cart cart : cartList) {
+
+            Product product = cart.getProduct();
+
+            totalPrice +=
+                    product.getPrice() * cart.getQuantity();
+
+            totalTaxPrice +=
+                    product.getTaxPrice() * cart.getQuantity();
+        }
+
+        model.addAttribute("totalPrice", totalPrice);
+        model.addAttribute("totalTaxPrice", totalTaxPrice);
+
+        return "checkoutDetail";
+    }
+
+
+    /*
+     * ==========================================
+     * カート内の数量変更
+     * ==========================================
+     */
     @PostMapping("/cart/update")
     public String updateCart(
             @RequestParam("cartId") Integer cartId,
@@ -119,7 +188,8 @@ public class cartController {
             @AuthenticationPrincipal LoginUserDetails loginUser) {
 
         // カートを取得
-        Cart cart = cartRepository.findById(cartId).orElse(null);
+        Cart cart =
+                cartRepository.findById(cartId).orElse(null);
 
         // カートが存在しない場合
         if (cart == null) {
@@ -138,7 +208,7 @@ public class cartController {
             return "redirect:/cart";
         }
 
-        // 商品の在庫数を取得
+        // 商品を取得
         Product product = cart.getProduct();
 
         // 在庫を超えていないか確認
@@ -153,14 +223,21 @@ public class cartController {
 
         return "redirect:/cart";
     }
-    
+
+
+    /*
+     * ==========================================
+     * カートから商品を削除
+     * ==========================================
+     */
     @PostMapping("/cart/delete")
     public String deleteCart(
             @RequestParam("cartId") Integer cartId,
             @AuthenticationPrincipal LoginUserDetails loginUser) {
 
         // カートを取得
-        Cart cart = cartRepository.findById(cartId).orElse(null);
+        Cart cart =
+                cartRepository.findById(cartId).orElse(null);
 
         // カートが存在しない場合
         if (cart == null) {

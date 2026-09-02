@@ -2,24 +2,72 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>TOP画面</title>
 </head>
 <body>
-	
-	<div th:replace="~{common/header :: layout-header}"></div>
-	
-	<div>TOP画面</div>
-	<div>セール品</div>
-	
-	<div th:each="product : ${products}">
-	    <div th:text="${product.productName}"></div>
-	    <a th:href="@{/product/{id}(id=${product.productId})}">
-	        <img th:src="@{${product.imgPath}}" width="150">
-	    </a>
-	</div>
-	
-	<!--<div th:text="${session.userId}"></div>-->
-	
-	<div th:replace="~{common/footer :: footer}"></div>
+
+    <div th:replace="~{common/header :: layout-header}"></div>
+
+    <h1>TOP画面</h1>
+
+    <h2>セール品</h2>
+
+
+    <!-- カテゴリごとに表示 -->
+    <div th:each="entry : ${salesByCategory}">
+
+        <!-- カテゴリ名 -->
+<!--		<h3 th:text="${categoryMap[entry.key].categoryName}">-->
+<!--		    カテゴリ名-->
+<!--		</h3>-->
+
+
+        <!-- そのカテゴリのセール商品 -->
+        <div th:each="salesItem : ${entry.value}">
+
+            <!-- 商品詳細画面へのリンク -->
+            <a th:href="@{/product/{id}(id=${salesItem.productId})}">
+
+                <!-- セール画像だけ表示 -->
+                <img
+                    th:src="@{${salesItem.salesImgPath}}"
+                    width="150"
+                    alt="セール商品"
+                >
+
+            </a>
+
+        </div>
+
+    </div>
+
+
+    <div th:replace="~{common/footer :: footer}"></div>
+
 </body>
 </html>
+
+
+<!--<!DOCTYPE html>-->
+<!--<html xmlns:th="http://www.thymeleaf.org">-->
+<!--<head>-->
+<!--<meta charset="UTF-8">-->
+<!--<title>TOP画面</title>-->
+<!--</head>-->
+<!--<body>-->
+	
+<!--	<div th:replace="~{common/header :: layout-header}"></div>-->
+	
+<!--	<h1>TOP画面</h1>-->
+<!--	<div>セール品</div>-->
+	
+<!--	<div th:each="product : ${products}">-->
+<!--	    <a th:href="@{/product/{id}(id=${product.productId})}">-->
+<!--	        <img th:src="@{${product.imgPath}}" width="150">-->
+<!--	    </a>-->
+<!--	</div>-->
+	
+	
+<!--	<div th:replace="~{common/footer :: footer}"></div>-->
+<!--</body>-->
+<!--</html>-->

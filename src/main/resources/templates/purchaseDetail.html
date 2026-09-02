@@ -1,0 +1,497 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <title>購入詳細画面</title>
+
+    <style>
+
+        body {
+            margin: 0;
+            padding: 20px 35px 80px 35px;
+            font-family: Arial, sans-serif;
+            color: #222;
+        }
+
+        h1 {
+            font-size: 30px;
+            margin-bottom: 55px;
+        }
+
+        .section-title {
+            font-size: 16px;
+            margin-left: 15px;
+            margin-bottom: 20px;
+        }
+
+        /*
+         * ラジオボタン＋入力欄全体
+         */
+        .choice-row {
+            display: flex;
+            align-items: flex-start;
+            margin-bottom: 16px;
+        }
+
+        /*
+         * ラジオボタン
+         */
+        .choice-row input[type="radio"] {
+            width: 20px;
+            height: 20px;
+            margin-top: 8px;
+            margin-right: 70px;
+            flex-shrink: 0;
+        }
+
+        /*
+         * 住所・カードの枠
+         */
+        .choice-box {
+            width: calc(100% - 120px);
+            border: 1px solid #d9dee3;
+            padding: 25px 18px 17px 18px;
+            box-sizing: border-box;
+        }
+
+        /*
+         * 住所入力
+         */
+        .form-label {
+            display: block;
+            margin-bottom: 7px;
+            font-size: 16px;
+        }
+
+        .form-input {
+            width: 100%;
+            height: 40px;
+            border: 1px solid #d9dee3;
+            border-radius: 6px;
+            padding: 0 12px;
+            box-sizing: border-box;
+            font-size: 15px;
+            margin-bottom: 18px;
+        }
+
+        /*
+         * 名前
+         */
+        .name-input {
+            width: 100%;
+            height: 40px;
+            border: none;
+            border-bottom: 1px solid #d9dee3;
+            padding: 0 0;
+            box-sizing: border-box;
+            font-size: 15px;
+            margin-bottom: 18px;
+            outline: none;
+        }
+
+        /*
+         * カード番号
+         */
+        .card-number {
+            width: 585px;
+            max-width: 100%;
+            height: 40px;
+            border: 1px solid #d9dee3;
+            border-radius: 6px;
+            padding: 0 12px;
+            box-sizing: border-box;
+            font-size: 15px;
+            margin-bottom: 16px;
+        }
+
+        /*
+         * 有効期限
+         */
+        .card-expiry {
+            width: 300px;
+            max-width: 100%;
+            height: 40px;
+            border: 1px solid #d9dee3;
+            border-radius: 6px;
+            padding: 0 12px;
+            box-sizing: border-box;
+            font-size: 15px;
+        }
+
+        /*
+         * お支払い情報との間隔
+         */
+        .payment-section {
+            margin-top: 48px;
+        }
+
+        /*
+         * 確認ボタン
+         */
+        .confirm-button {
+            margin-top: 48px;
+            margin-left: 10px;
+
+            background-color: #0d6efd;
+            color: white;
+
+            border: none;
+            border-radius: 6px;
+
+            padding: 10px 18px;
+
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        .confirm-button:hover {
+            background-color: #0b5ed7;
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+<div th:replace="~{common/header :: header}"></div>
+
+
+<h1>購入詳細画面</h1>
+
+
+<form
+    th:action="@{/purchase/confirm}"
+    method="post"
+    id="purchaseForm">
+
+
+    <!-- ===================================== -->
+    <!-- 受け取り場所 -->
+    <!-- ===================================== -->
+
+    <div class="section-title">
+        ＜受け取り場所＞
+    </div>
+
+
+    <!-- 住所1 -->
+    <div class="choice-row">
+
+        <input
+            type="radio"
+            name="addressChoice"
+            value="1"
+            checked>
+
+        <div class="choice-box">
+
+            <label class="form-label">
+                名前：
+            </label>
+
+            <input
+                type="text"
+                id="name1"
+                class="name-input"
+                th:value="${user.userName}">
+
+
+            <label class="form-label">
+                住所
+            </label>
+
+            <input
+                type="text"
+                id="address1"
+                class="form-input"
+                th:value="${user.userAddress}"
+                placeholder="住所">
+
+
+            <label class="form-label">
+                アパート名等
+            </label>
+
+            <input
+                type="text"
+                id="apartment1"
+                class="form-input"
+                placeholder="アパート名等">
+
+        </div>
+
+    </div>
+
+
+    <!-- 住所2 -->
+    <div class="choice-row">
+
+        <input
+            type="radio"
+            name="addressChoice"
+            value="2">
+
+        <div class="choice-box">
+
+            <label class="form-label">
+                名前：
+            </label>
+
+            <input
+                type="text"
+                id="name2"
+                class="name-input"
+                placeholder="名前">
+
+
+            <label class="form-label">
+                住所
+            </label>
+
+            <input
+                type="text"
+                id="address2"
+                class="form-input"
+                placeholder="住所">
+
+
+            <label class="form-label">
+                アパート名等
+            </label>
+
+            <input
+                type="text"
+                id="apartment2"
+                class="form-input"
+                placeholder="アパート名等">
+
+        </div>
+
+    </div>
+
+
+    <!-- ===================================== -->
+    <!-- お支払い情報 -->
+    <!-- ===================================== -->
+
+    <div class="payment-section">
+
+        <div class="section-title">
+            ＜お支払い情報＞
+        </div>
+
+
+        <!-- カード1 -->
+        <div class="choice-row">
+
+            <input
+                type="radio"
+                name="cardChoice"
+                value="1"
+                checked>
+
+            <div class="choice-box">
+
+                <input
+                    type="text"
+                    id="cardNumber1"
+                    class="card-number"
+                    placeholder="カード番号">
+
+                <br>
+
+                <input
+                    type="text"
+                    id="cardExpiry1"
+                    class="card-expiry"
+                    placeholder="有効期限 DD/YY">
+
+            </div>
+
+        </div>
+
+
+        <!-- カード2 -->
+        <div class="choice-row">
+
+            <input
+                type="radio"
+                name="cardChoice"
+                value="2">
+
+            <div class="choice-box">
+
+                <input
+                    type="text"
+                    id="cardNumber2"
+                    class="card-number"
+                    placeholder="カード番号">
+
+                <br>
+
+                <input
+                    type="text"
+                    id="cardExpiry2"
+                    class="card-expiry"
+                    placeholder="有効期限 DD/YY">
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- ===================================== -->
+    <!-- Controllerへ送る値 -->
+    <!-- ===================================== -->
+
+    <input
+        type="hidden"
+        name="productId"
+        th:value="${product.productId}">
+
+    <input
+        type="hidden"
+        name="quantity"
+        th:value="${quantity}">
+
+    <input
+        type="hidden"
+        name="deliveryAddress"
+        id="deliveryAddress">
+
+    <input
+        type="hidden"
+        name="paymentMethod"
+        id="paymentMethod">
+
+
+    <!-- 確認ボタン -->
+
+    <button
+        type="submit"
+        class="confirm-button">
+
+        確認
+
+    </button>
+
+
+</form>
+
+
+<div th:replace="~{common/footer :: footer}"></div>
+
+
+<script>
+
+    /*
+     * 選択されている住所を取得
+     */
+    function getSelectedAddress() {
+
+        const selected =
+            document.querySelector(
+                'input[name="addressChoice"]:checked'
+            );
+
+        if (selected.value === "1") {
+
+            const name =
+                document.getElementById("name1").value;
+
+            const address =
+                document.getElementById("address1").value;
+
+            const apartment =
+                document.getElementById("apartment1").value;
+
+            return name
+                + " / "
+                + address
+                + " / "
+                + apartment;
+
+        } else {
+
+            const name =
+                document.getElementById("name2").value;
+
+            const address =
+                document.getElementById("address2").value;
+
+            const apartment =
+                document.getElementById("apartment2").value;
+
+            return name
+                + " / "
+                + address
+                + " / "
+                + apartment;
+        }
+    }
+
+
+    /*
+     * 選択されているカードを取得
+     */
+    function getSelectedCard() {
+
+        const selected =
+            document.querySelector(
+                'input[name="cardChoice"]:checked'
+            );
+
+        if (selected.value === "1") {
+
+            const cardNumber =
+                document.getElementById("cardNumber1").value;
+
+            const expiry =
+                document.getElementById("cardExpiry1").value;
+
+            return cardNumber
+                + " / "
+                + expiry;
+
+        } else {
+
+            const cardNumber =
+                document.getElementById("cardNumber2").value;
+
+            const expiry =
+                document.getElementById("cardExpiry2").value;
+
+            return cardNumber
+                + " / "
+                + expiry;
+        }
+    }
+
+
+    /*
+     * 「確認」を押したとき
+     */
+    document.getElementById("purchaseForm")
+        .addEventListener("submit", function() {
+
+            document.getElementById("deliveryAddress").value =
+                getSelectedAddress();
+
+            document.getElementById("paymentMethod").value =
+                getSelectedCard();
+
+        });
+
+</script>
+
+
+</body>
+
+</html>

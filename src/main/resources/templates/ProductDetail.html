@@ -49,12 +49,12 @@
 	    </div>
 
 	    <div>
-	        税抜き合計：
+	        価格：
 	        <span id="subtotal"></span>円
 	    </div>
 
 	    <div>
-	        税込み合計：
+	        税込価格：
 	        <span id="total"></span>円
 	    </div>
 
@@ -73,12 +73,28 @@
 	        </button>
 
 	    </form>
+		
+		<!-- 単品購入 -->
+		<form
+		    th:action="@{/purchase/{id}(id=${product.productId})}"
+		    method="get">
+
+		    <input
+		        type="hidden"
+		        id="purchaseQuantity"
+		        name="quantity"
+		        value="1">
+
+		    <button type="submit">
+		        単品購入
+		    </button>
+		</form>
 
 	</div>
 	
 	
 	
-	<a th:href="@{/review/form/{id}(id=${product.productId})}">口コミ</a>
+	<a th:href="@{/review/form/{id}(id=${product.productId})}">口コミ投稿</a>
 	
 	<h2><口コミ></h2>
 
@@ -91,7 +107,7 @@
 	    <hr>
 
 		<div>
-		    ユーザー：
+		    ユーザー名：
 		    
 			<span th:text="
 			${review.dummyUserName != null
@@ -140,6 +156,9 @@
 
 	    const cartQuantity =
 	        document.getElementById("cartQuantity");
+			
+		const purchaseQuantity =
+		    document.getElementById("purchaseQuantity");
 
 
 	    function updatePrice() {
@@ -160,6 +179,8 @@
 	            total.toLocaleString();
 
 	        cartQuantity.value = quantity;
+			
+			purchaseQuantity.value = quantity;
 	    }
 
 

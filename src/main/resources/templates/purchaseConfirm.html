@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <title>購入確認</title>
+
+    <style>
+
+        body {
+            margin: 0;
+            padding: 20px 35px 80px 35px;
+            font-family: Arial, sans-serif;
+        }
+
+        h1 {
+            font-size: 30px;
+            margin-bottom: 50px;
+        }
+
+        .section {
+            margin-bottom: 40px;
+        }
+
+        .section-title {
+            font-size: 17px;
+            margin-bottom: 15px;
+        }
+
+        .box {
+            border: 1px solid #d9dee3;
+            padding: 20px;
+            width: 85%;
+        }
+
+        .row {
+            margin-bottom: 15px;
+        }
+
+        .confirm-button {
+            background-color: #0d6efd;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            padding: 10px 18px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        .back-button {
+            margin-left: 10px;
+            padding: 9px 18px;
+            font-size: 16px;
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+<div th:replace="~{common/header :: header}"></div>
+
+
+<h1>購入確認</h1>
+
+
+<!-- 商品 -->
+<div class="section">
+
+    <div class="section-title">
+        ＜商品情報＞
+    </div>
+
+    <div class="box">
+
+        <div class="row">
+
+            商品名：
+            <span th:text="${product.productName}">
+            </span>
+
+        </div>
+
+        <div class="row">
+
+            数量：
+            <span th:text="${quantity}">
+            </span>
+            個
+
+        </div>
+
+        <div class="row">
+
+            金額：
+            <span
+                th:text="${product.taxPrice * quantity}">
+            </span>
+            円
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- 受け取り場所 -->
+<div class="section">
+
+    <div class="section-title">
+        ＜受け取り場所＞
+    </div>
+
+    <div class="box">
+
+        <span th:text="${deliveryAddress}">
+        </span>
+
+    </div>
+
+</div>
+
+
+<!-- 支払方法 -->
+<div class="section">
+
+    <div class="section-title">
+        ＜お支払い情報＞
+    </div>
+
+    <div class="box">
+
+        <span th:text="${paymentMethod}">
+        </span>
+
+    </div>
+
+</div>
+
+
+<form
+    th:action="@{/purchase/complete}"
+    method="post">
+
+    <input
+        type="hidden"
+        name="productId"
+        th:value="${product.productId}">
+
+    <input
+        type="hidden"
+        name="quantity"
+        th:value="${quantity}">
+
+    <input
+        type="hidden"
+        name="deliveryAddress"
+        th:value="${deliveryAddress}">
+
+    <input
+        type="hidden"
+        name="paymentMethod"
+        th:value="${paymentMethod}">
+
+<!--    <button-->
+<!--        type="submit"-->
+<!--        class="confirm-button">-->
+
+<!--        購入する-->
+
+<!--    </button>-->
+<form th:action="@{/purchase/complete}" method="post">
+
+    <input
+        type="hidden"
+        name="productId"
+        th:value="${product.productId}">
+
+    <input
+        type="hidden"
+        name="quantity"
+        th:value="${quantity}">
+
+    <input
+        type="hidden"
+        th:name="${_csrf.parameterName}"
+        th:value="${_csrf.token}">
+
+    <button type="submit">
+        購入
+    </button>
+
+</form>
+
+</form>
+
+
+</body>
+
+</html>
