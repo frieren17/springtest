@@ -4,7 +4,7 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>購入完了</title>
+    <title>購入完了画面</title>
 </head>
 
 <body>
@@ -12,74 +12,132 @@
     <h1>購入完了画面</h1>
 
     <div th:replace="~{common/header :: header}"></div>
+	
+
+	<h2>注文完了</h2>
 
 
-    <h2>ご購入ありがとうございます</h2>
+	<!-- 商品情報 -->
+	<div>
+
+	    <div>
+	        <img th:src="@{${product.imgPath}}" alt="商品画像" width="200">
+	    </div>
+
+	    <div>
+	        商品名：
+	        <span th:text="${product.productName}"></span>
+	    </div>
+
+	    <div>
+	        数量：
+	        <span th:text="${quantity}"></span>
+	    </div>
+
+	    <div>
+	        税込価格：
+	        <span
+	            th:text="${#numbers.formatInteger(totalAmount, 3, 'COMMA')}">
+	        </span>
+	        円
+	    </div>
+
+		<div>
+	        住所：
+	        <span th:text="${completeAddress}"></span>
+	    </div>
+<!--		<div>-->
+<!--	        住所：-->
+<!--	        <span th:text="${address}"></span>-->
+<!--	    </div>-->
+<!--		<div>-->
+<!--	        アパート名：-->
+<!--	        <span th:text="${apartment}"></span>-->
+<!--	    </div>-->
+
+	</div>
 
 
-    <!-- 商品情報 -->
-    <div>
+	<br>
 
-        <h3>購入商品</h3>
+	<!-- TOP画面へ -->
+	<div>
 
-        <div>
-            商品名：
-            <span th:text="${product.productName}"></span>
-        </div>
+	    <a th:href="@{/}">
+	        <button type="button">
+	            TOP画面へ戻る
+	        </button>
+	    </a>
 
-        <div>
-            <img
-                th:src="@{${product.imgPath}}"
-                alt="商品画像"
-                width="200">
-        </div>
-
-        <div>
-            購入数量：
-            <span th:text="${quantity}"></span>
-        </div>
-
-        <div>
-            税込み価格：
-            <span
-                th:text="${#numbers.formatInteger(totalAmount, 3, 'COMMA')}">
-            </span>
-            円
-        </div>
-
-    </div>
+	</div>
 
 
-    <!-- お届け先 -->
-    <div>
-
-        <h3>お届け先</h3>
-
-        <div>
-            <span th:text="${user.userName}"></span>
-        </div>
-
-        <div>
-            住所：
-            <span th:text="${user.userAddress}"></span>
-        </div>
-
-    </div>
+<!--    <h2>ご購入ありがとうございます</h2>-->
 
 
-    <br>
+<!--     商品情報 -->
+<!--    <div>-->
+
+<!--        <h3>購入商品</h3>-->
+
+<!--        <div>-->
+<!--            商品名：-->
+<!--            <span th:text="${product.productName}"></span>-->
+<!--        </div>-->
+
+<!--        <div>-->
+<!--            <img-->
+<!--                th:src="@{${product.imgPath}}"-->
+<!--                alt="商品画像"-->
+<!--                width="200">-->
+<!--        </div>-->
+
+<!--        <div>-->
+<!--            購入数量：-->
+<!--            <span th:text="${quantity}"></span>-->
+<!--        </div>-->
+
+<!--        <div>-->
+<!--            税込み価格：-->
+<!--            <span-->
+<!--                th:text="${#numbers.formatInteger(totalAmount, 3, 'COMMA')}">-->
+<!--            </span>-->
+<!--            円-->
+<!--        </div>-->
+
+<!--    </div>-->
 
 
-    <!-- TOP画面へ -->
-    <div>
+<!--     お届け先 -->
+<!--    <div>-->
 
-        <a th:href="@{/}">
-            <button type="button">
-                TOP画面へ戻る
-            </button>
-        </a>
+<!--        <h3>お届け先</h3>-->
 
-    </div>
+<!--        <div>-->
+<!--            <span th:text="${user.userName}"></span>-->
+<!--        </div>-->
+
+<!--        <div>-->
+<!--            住所：-->
+<!--            <span th:text="${user.userAddress}"></span>-->
+<!--        </div>-->
+
+<!--    </div>-->
+
+
+<!--    <br>-->
+
+
+<!--     TOP画面へ -->
+<!--    <div>-->
+
+<!--        <a th:href="@{/}">-->
+<!--            <button type="button">-->
+<!--                TOP画面へ戻る-->
+<!--            </button>-->
+<!--        </a>-->
+
+<!--    </div>-->
 
 
     <div th:replace="~{common/footer :: footer}"></div>

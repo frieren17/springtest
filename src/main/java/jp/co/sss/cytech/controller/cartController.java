@@ -156,7 +156,7 @@ public class cartController {
         /*
          * 税込み合計金額
          */
-        int totalTaxPrice = 0;
+        int totalIncludeTax = 0;
 
         for (Cart cart : cartList) {
 
@@ -165,12 +165,12 @@ public class cartController {
             totalPrice +=
                     product.getPrice() * cart.getQuantity();
 
-            totalTaxPrice +=
-                    product.getTaxPrice() * cart.getQuantity();
+            totalIncludeTax +=
+                    product.getIncludeTax() * cart.getQuantity();
         }
 
         model.addAttribute("totalPrice", totalPrice);
-        model.addAttribute("totalTaxPrice", totalTaxPrice);
+        model.addAttribute("totalIncludeTax", totalIncludeTax);
 
         return "checkoutDetail";
     }

@@ -24,8 +24,8 @@ public class Product {
     @Column(name = "price")
     private Integer price;
 
-    @Column(name = "tax_price")
-    private Integer taxPrice;
+    @Column(name = "include_tax")
+    private Integer includeTax;
 
     @Column(name = "stock")
     private Integer stock;
@@ -69,12 +69,12 @@ public class Product {
         this.price = price;
     }
 
-    public Integer getTaxPrice() {
-        return taxPrice;
+    public Integer getIncludeTax() {
+        return includeTax;
     }
 
-    public void setTaxPrice(Integer taxPrice) {
-        this.taxPrice = taxPrice;
+    public void setIncludeTax(Integer includeTax) {
+        this.includeTax = includeTax;
     }
 
     public Integer getStock() {

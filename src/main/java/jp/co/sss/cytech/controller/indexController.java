@@ -577,165 +577,474 @@ public class indexController {
      * 購入確認画面
      * =========================
      */
-    @RequestMapping(
-        path = "/purchase/confirm",
-        method = RequestMethod.POST
-    )
-    public String purchaseConfirm(
-            Integer productId,
-            Integer quantity,
-            String deliveryAddress,
-            String paymentMethod,
-            Model model) {
-
-        /*
-         * 商品取得
-         */
-        Product product =
-                productRepository
-                    .findById(productId)
-                    .orElse(null);
-
-        /*
-         * 商品が存在しない場合
-         */
-        if (product == null) {
-            return "redirect:/";
-        }
-
-        /*
-         * 数量チェック
-         */
-        if (quantity == null || quantity < 1) {
-            quantity = 1;
-        }
-
-        /*
-         * 在庫チェック
-         */
-        if (quantity > product.getStock()) {
-
-            return "redirect:/purchase/"
-                    + productId
-                    + "?quantity="
-                    + product.getStock();
-        }
-
-        /*
-         * 選択内容をpurchaseConfirm.htmlへ渡す
-         */
-        model.addAttribute(
-            "product",
-            product
-        );
-
-        model.addAttribute(
-            "quantity",
-            quantity
-        );
-
-        model.addAttribute(
-            "deliveryAddress",
-            deliveryAddress
-        );
-
-        model.addAttribute(
-            "paymentMethod",
-            paymentMethod
-        );
-
-        /*
-         * 購入確認画面
-         */
-        return "purchaseConfirm";
-    }
     
-    @RequestMapping(path = "/purchase/complete", method = RequestMethod.POST)
-    @Transactional
-    public String purchaseComplete(
-            Integer productId,
-            Integer quantity,
-            Authentication authentication,
-            Model model) {
+    @RequestMapping(
+	    path = "/purchase/confirm",
+	    method = RequestMethod.POST
+	)
+	public String purchaseConfirm(
+	        Integer productId,
+	        Integer quantity,
+	        String deliveryAddress,
+	        String paymentMethod,
+	        Model model) {
 
-        // ログインしているユーザーのメールアドレスを取得
-        String email = authentication.getName();
+	    /*
+	     * 商品取得
+	     */
+	    Product product =
+	            productRepository
+	                .findById(productId)
+	                .orElse(null);
 
-        // ユーザー情報を取得
-        User user = userRepository.findByEmail(email);
+	    /*
+	     * 商品が存在しない場合
+	     */
+	    if (product == null) {
+	        return "redirect:/";
+	    }
 
-        // 商品情報を取得
-        Product product = productRepository.findById(productId)
-                .orElse(null);
+	    /*
+	     * 数量チェック
+	     */
+	    if (quantity == null || quantity < 1) {
+	        quantity = 1;
+	    }
 
-        // 商品が存在しない場合
-        if (product == null) {
-            return "redirect:/";
-        }
+	    /*
+	     * 在庫チェック
+	     */
+	    if (quantity > product.getStock()) {
 
-        // 数量チェック
-        if (quantity == null || quantity <= 0) {
-            return "redirect:/product/" + productId;
-        }
-
-        // 在庫チェック
-        if (product.getStock() < quantity) {
-            return "redirect:/product/" + productId;
-        }
-
-        // 税込み合計金額
-        int totalAmount = product.getTaxPrice() * quantity;
-
-
-        // =========================
-        // orders に登録
-        // =========================
-
-        Order order = new Order();
-
-        order.setUser(user);
-        order.setTotalAmount(totalAmount);
-        order.setStatus("注文受付");
-
-        orderRepository.save(order);
+	        return "redirect:/purchase/"
+	                + productId
+	                + "?quantity="
+	                + product.getStock();
+	    }
 
 
-        // =========================
-        // order_items に登録
-        // =========================
+	    /*
+	     * 住所を分解
+	     *
+	     * 「名前 / 住所 / アパート名」
+	     */
+	    String name = "";
+	    String address = "";
+	    String apartment = "";
 
-        OrderItem orderItem = new OrderItem();
+	    if (deliveryAddress != null) {
 
-        orderItem.setOrder(order);
-        orderItem.setProduct(product);
-        orderItem.setQuantity(quantity);
+	        String[] addressData =
+	                deliveryAddress.split(" / ", -1);
 
-        // 購入時点の税込価格を保存
-        orderItem.setPrice(product.getTaxPrice());
+	        if (addressData.length > 0) {
+	            name = addressData[0];
+	        }
 
-        orderItemRepository.save(orderItem);
+	        if (addressData.length > 1) {
+	            address = addressData[1];
+	        }
 
-
-        // =========================
-        // 商品の在庫を減らす
-        // =========================
-
-        product.setStock(product.getStock() - quantity);
-
-        productRepository.save(product);
+	        if (addressData.length > 2) {
+	            apartment = addressData[2];
+	        }
+	    }
 
 
-        // =========================
-        // 購入完了画面へ渡す
-        // =========================
+	    /*
+	     * purchaseConfirm.htmlへ渡す
+	     */
+	    model.addAttribute(
+	        "product",
+	        product
+	    );
 
-        model.addAttribute("product", product);
-        model.addAttribute("quantity", quantity);
-        model.addAttribute("totalAmount", totalAmount);
-        model.addAttribute("user", user);
+	    model.addAttribute(
+	        "quantity",
+	        quantity
+	    );
 
-        return "purchaseComplete";
-    }
+	    model.addAttribute(
+	        "deliveryAddress",
+	        deliveryAddress
+	    );
+
+	    model.addAttribute(
+	        "paymentMethod",
+	        paymentMethod
+	    );
+
+	    model.addAttribute(
+	        "name",
+	        name
+	    );
+
+	    model.addAttribute(
+	        "address",
+	        address
+	    );
+
+	    model.addAttribute(
+	        "apartment",
+	        apartment
+	    );
+
+
+	    return "purchaseConfirm";
+	}
+
+//    @RequestMapping(
+//        path = "/purchase/confirm",
+//        method = RequestMethod.POST
+//    )
+//    public String purchaseConfirm(
+//            Integer productId,
+//            Integer quantity,
+//            String deliveryAddress,
+//            String paymentMethod,
+//            Model model) {
+//
+//        /*
+//         * 商品取得
+//         */
+//        Product product =
+//                productRepository
+//                    .findById(productId)
+//                    .orElse(null);
+//
+//        /*
+//         * 商品が存在しない場合
+//         */
+//        if (product == null) {
+//            return "redirect:/";
+//        }
+//
+//        /*
+//         * 数量チェック
+//         */
+//        if (quantity == null || quantity < 1) {
+//            quantity = 1;
+//        }
+//
+//        /*
+//         * 在庫チェック
+//         */
+//        if (quantity > product.getStock()) {
+//
+//            return "redirect:/purchase/"
+//                    + productId
+//                    + "?quantity="
+//                    + product.getStock();
+//        }
+//
+//        /*
+//         * 選択内容をpurchaseConfirm.htmlへ渡す
+//         */
+//        model.addAttribute(
+//            "product",
+//            product
+//        );
+//
+//        model.addAttribute(
+//            "quantity",
+//            quantity
+//        );
+//
+//        model.addAttribute(
+//            "deliveryAddress",
+//            deliveryAddress
+//        );
+//
+//        model.addAttribute(
+//            "paymentMethod",
+//            paymentMethod
+//        );
+//
+//        /*
+//         * 購入確認画面
+//         */
+//        return "purchaseConfirm";
+//    }
+    
+    @RequestMapping(
+    	    path = "/purchase/complete",
+    	    method = RequestMethod.POST
+    	)
+    	@Transactional
+    	public String purchaseComplete(
+    	        Integer productId,
+    	        Integer quantity,
+    	        String deliveryAddress,
+    	        Authentication authentication,
+    	        Model model) {
+
+    	    // =========================
+    	    // ログインユーザー取得
+    	    // =========================
+
+    	    String email = authentication.getName();
+
+    	    User user =
+    	            userRepository.findByEmail(email);
+
+
+    	    // =========================
+    	    // 商品取得
+    	    // =========================
+
+    	    Product product =
+    	            productRepository
+    	                .findById(productId)
+    	                .orElse(null);
+
+    	    if (product == null) {
+    	        return "redirect:/";
+    	    }
+
+
+    	    // =========================
+    	    // 数量チェック
+    	    // =========================
+
+    	    if (quantity == null || quantity <= 0) {
+    	        return "redirect:/product/" + productId;
+    	    }
+
+
+    	    // =========================
+    	    // 在庫チェック
+    	    // =========================
+
+    	    if (product.getStock() < quantity) {
+    	        return "redirect:/product/" + productId;
+    	    }
+
+
+    	    // =========================
+    	    // 税込み合計金額
+    	    // =========================
+
+    	    int totalAmount =
+    	            product.getIncludeTax() * quantity;
+    	    
+	    	 // =========================
+	    	 // 完了画面用の住所を作成
+	    	 // =========================
+	
+	    	 String completeAddress = "";
+	
+	    	 if (deliveryAddress != null) {
+	
+	    	     String[] addressData =
+	    	             deliveryAddress.split(" / ", -1);
+	
+	    	     // addressData[0] = 名前
+	    	     // addressData[1] = 住所
+	    	     // addressData[2] = アパート名
+	
+	    	     if (addressData.length > 1) {
+	    	         completeAddress = addressData[1];
+	    	     }
+	
+	    	     if (addressData.length > 2) {
+	    	         completeAddress += addressData[2];
+	    	     }
+	    	 }
+
+
+
+    	    // =========================
+    	    // orders に登録
+    	    // =========================
+
+    	    Order order = new Order();
+
+    	    order.setUser(user);
+    	    order.setTotalAmount(totalAmount);
+    	    order.setStatus("注文受付");
+
+    	    orderRepository.save(order);
+
+
+    	    // =========================
+    	    // order_items に登録
+    	    // =========================
+
+    	    OrderItem orderItem = new OrderItem();
+
+    	    orderItem.setOrder(order);
+    	    orderItem.setProduct(product);
+    	    orderItem.setQuantity(quantity);
+
+    	    // 購入時点の税込価格を保存
+    	    orderItem.setPrice(product.getIncludeTax());
+
+    	    orderItemRepository.save(orderItem);
+
+
+    	    // =========================
+    	    // 商品の在庫を減らす
+    	    // =========================
+
+    	    product.setStock(
+    	        product.getStock() - quantity
+    	    );
+
+    	    productRepository.save(product);
+
+
+    	    // =========================
+    	    // 住所を分解
+    	    // =========================
+
+    	    String address = "";
+    	    String apartment = "";
+
+    	    if (deliveryAddress != null) {
+
+    	        String[] addressData =
+    	                deliveryAddress.split(" / ", -1);
+
+    	        // addressData[0] = 名前
+    	        // addressData[1] = 住所
+    	        // addressData[2] = アパート名
+
+    	        if (addressData.length > 1) {
+    	            address = addressData[1];
+    	        }
+
+    	        if (addressData.length > 2) {
+    	            apartment = addressData[2];
+    	        }
+    	    }
+
+
+    	    // =========================
+    	    // 購入完了画面へ渡す
+    	    // =========================
+
+    	    model.addAttribute(
+    	        "product",
+    	        product
+    	    );
+
+    	    model.addAttribute(
+    	        "quantity",
+    	        quantity
+    	    );
+
+    	    model.addAttribute(
+    	        "totalAmount",
+    	        totalAmount
+    	    );
+
+    	    model.addAttribute(
+    	        "user",
+    	        user
+    	    );
+
+    	    model.addAttribute("completeAddress", completeAddress);
+//    	    model.addAttribute(
+//    	        "address",
+//    	        address
+//    	    );
+//
+//    	    model.addAttribute(
+//    	        "apartment",
+//    	        apartment
+//    	    );
+
+
+    	    return "purchaseComplete";
+    	}
+
+
+//    @RequestMapping(path = "/purchase/complete", method = RequestMethod.POST)
+//    @Transactional
+//    public String purchaseComplete(
+//            Integer productId,
+//            Integer quantity,
+//            Authentication authentication,
+//            Model model) {
+//
+//        // ログインしているユーザーのメールアドレスを取得
+//        String email = authentication.getName();
+//
+//        // ユーザー情報を取得
+//        User user = userRepository.findByEmail(email);
+//
+//        // 商品情報を取得
+//        Product product = productRepository.findById(productId)
+//                .orElse(null);
+//
+//        // 商品が存在しない場合
+//        if (product == null) {
+//            return "redirect:/";
+//        }
+//
+//        // 数量チェック
+//        if (quantity == null || quantity <= 0) {
+//            return "redirect:/product/" + productId;
+//        }
+//
+//        // 在庫チェック
+//        if (product.getStock() < quantity) {
+//            return "redirect:/product/" + productId;
+//        }
+//
+//        // 税込み合計金額
+//        int totalAmount = product.getIncludeTax() * quantity;
+//
+//
+//        // =========================
+//        // orders に登録
+//        // =========================
+//
+//        Order order = new Order();
+//
+//        order.setUser(user);
+//        order.setTotalAmount(totalAmount);
+//        order.setStatus("注文受付");
+//
+//        orderRepository.save(order);
+//
+//
+//        // =========================
+//        // order_items に登録
+//        // =========================
+//
+//        OrderItem orderItem = new OrderItem();
+//
+//        orderItem.setOrder(order);
+//        orderItem.setProduct(product);
+//        orderItem.setQuantity(quantity);
+//
+//        // 購入時点の税込価格を保存
+//        orderItem.setPrice(product.getIncludeTax());
+//
+//        orderItemRepository.save(orderItem);
+//
+//
+//        // =========================
+//        // 商品の在庫を減らす
+//        // =========================
+//
+//        product.setStock(product.getStock() - quantity);
+//
+//        productRepository.save(product);
+//
+//
+//        // =========================
+//        // 購入完了画面へ渡す
+//        // =========================
+//
+//        model.addAttribute("product", product);
+//        model.addAttribute("quantity", quantity);
+//        model.addAttribute("totalAmount", totalAmount);
+//        model.addAttribute("user", user);
+//
+//        return "purchaseComplete";
+//    }
 
 }
 

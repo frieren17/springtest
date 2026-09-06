@@ -2,40 +2,52 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>商品詳細画面</title>
 </head>
 <body>
 	<h1>商品詳細画面</h1>
 	
 	<div th:replace="~{common/header :: header}"></div>
 	
+	
 	<div>
 		商品名：
 		<span th:text="${product.productName}"></span>
 	</div>
+	
 	<div>
 		メーカー名：
 		<span th:text="${product.company.companyName}"></span>
 	</div>
+	
 	<div>
 		価格：
 		<span th:text="${product.price}"></span>円
 	</div>
+	
 	<div>
 		税込価格：
-		<span th:text="${product.taxPrice}"></span>円
+		<span th:text="${product.includeTax}"></span>円
 	</div>
-	<img th:src="@{${product.imgPath}}">
+	
 	<div>
 		在庫数：
 		<span th:text="${product.stock}"></span>
 	</div>
 	
+	<img th:src="@{${product.imgPath}}">
 	
 	
 	<!-- カート追加 -->
 	<div>
+		<form th:action="@{/cart/add/{id}(id=${product.productId})}" method="post">
 
+	        <input type="hidden" id="cartQuantity" name="quantity" value="1">
+
+	        <button type="submit">カートに入れる</button>
+
+	    </form>
+		
 	    <div>
 	        <label for="quantity">数量：</label>
 
@@ -57,44 +69,22 @@
 	        税込価格：
 	        <span id="total"></span>円
 	    </div>
-
-	    <form
-	        th:action="@{/cart/add/{id}(id=${product.productId})}"
-	        method="post">
-
-	        <input
-	            type="hidden"
-	            id="cartQuantity"
-	            name="quantity"
-	            value="1">
-
-	        <button type="submit">
-	            カートに入れる
-	        </button>
-
-	    </form>
+		
+		<div>
+	        在庫表示：
+	        <span th:text="${product.stock}"></span>
+	    </div>
 		
 		<!-- 単品購入 -->
-		<form
-		    th:action="@{/purchase/{id}(id=${product.productId})}"
-		    method="get">
+		<form th:action="@{/purchase/{id}(id=${product.productId})}" method="get">
 
-		    <input
-		        type="hidden"
-		        id="purchaseQuantity"
-		        name="quantity"
-		        value="1">
+		    <input type="hidden" id="purchaseQuantity" name="quantity" value="1">
 
-		    <button type="submit">
-		        単品購入
-		    </button>
+		    <button type="submit">単品購入</button>
 		</form>
 
 	</div>
 	
-	
-	
-	<a th:href="@{/review/form/{id}(id=${product.productId})}">口コミ投稿</a>
 	
 	<h2><口コミ></h2>
 
@@ -108,7 +98,6 @@
 
 		<div>
 		    ユーザー名：
-		    
 			<span th:text="
 			${review.dummyUserName != null
 			&& review.dummyUserName != ''
@@ -136,6 +125,10 @@
 	    </div>
 
 	</div>
+	<!--	<a th:href="@{/review/form/{id}(id=${product.productId})}">口コミ投稿</a>-->
+	<form th:action="@{/review/form/{id}(id=${product.productId})}" method="get">
+	    <button type="submit">口コミ投稿</button>
+	</form>
 	
 	<div th:replace="~{common/footer :: footer}"></div>
 	
@@ -143,7 +136,7 @@
 	<script th:inline="javascript">
 
 	    const price = /*[[${product.price}]]*/ 0;
-	    const taxPrice = /*[[${product.taxPrice}]]*/ 0;
+	    const includeTax = /*[[${product.includeTax}]]*/ 0;
 
 	    const quantitySelect =
 	        document.getElementById("quantity");
@@ -170,7 +163,7 @@
 	            price * quantity;
 
 	        const total =
-	            taxPrice * quantity;
+	            includeTax * quantity;
 
 	        subtotalElement.textContent =
 	            subtotal.toLocaleString();

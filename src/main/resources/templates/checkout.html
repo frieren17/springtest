@@ -48,7 +48,7 @@
 	        <div>
 	            カート内の合計：
 	            <span
-	                th:text="${cart.product.taxPrice * cart.quantity}">
+	                th:text="${cart.product.includeTax * cart.quantity}">
 	            </span>円
 	        </div>
 	
