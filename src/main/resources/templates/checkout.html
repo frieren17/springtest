@@ -68,6 +68,20 @@
 	
 	</form>
 	
+	<!-- レジに進む -->
+	<div th:unless="${#lists.isEmpty(cartList)}">
+
+	    <form th:action="@{/purchase/cart}" method="get">
+
+	        <button type="submit">
+	            レジに進む
+	        </button>
+
+	    </form>
+
+	</div>
+
+	
 	
 	<!-- TOP画面へ -->
 	<form th:action="@{/}" method="get">

@@ -7,14 +7,18 @@ import jakarta.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import jp.co.sss.cytech.entity.Cart;
 import jp.co.sss.cytech.entity.Category;
 import jp.co.sss.cytech.entity.Order;
 import jp.co.sss.cytech.entity.OrderItem;
@@ -23,6 +27,7 @@ import jp.co.sss.cytech.entity.Review;
 import jp.co.sss.cytech.entity.SalesItem;
 import jp.co.sss.cytech.entity.User;
 import jp.co.sss.cytech.form.LoginForm;
+import jp.co.sss.cytech.repository.CartRepository;
 import jp.co.sss.cytech.repository.CategoryRepository;
 import jp.co.sss.cytech.repository.OrderItemRepository;
 import jp.co.sss.cytech.repository.OrderRepository;
@@ -30,6 +35,7 @@ import jp.co.sss.cytech.repository.ProductRepository;
 import jp.co.sss.cytech.repository.ReviewRepository;
 import jp.co.sss.cytech.repository.SalesItemRepository;
 import jp.co.sss.cytech.repository.UserRepository;
+import jp.co.sss.cytech.service.LoginUserDetails;
 
 
 @Controller
@@ -57,6 +63,9 @@ public class indexController {
     @Autowired
     OrderItemRepository orderItemRepository;
     
+    @Autowired
+    CartRepository cartRepository;
+
     
 
     @Autowired
@@ -569,6 +578,357 @@ public class indexController {
          * 購入品詳細画面
          */
         return "purchaseDetail";
+    }
+
+    /*
+     * =========================
+     * カートからレジに進む
+     * =========================
+     */
+    @GetMapping("/purchase/cart")
+    public String purchaseCart(
+            @AuthenticationPrincipal LoginUserDetails loginUser,
+            Model model) {
+
+        // ログインユーザーを取得
+        User user = loginUser.getUser();
+
+        // カート内の商品を取得
+        List<Cart> cartList =
+                cartRepository.findByUser_UserId(
+                        user.getUserId()
+                );
+
+        // カートが空の場合
+        if (cartList.isEmpty()) {
+            return "redirect:/cart/add";
+        }
+        
+        // カート合計
+        int cartTotal = 0;
+
+        for (Cart cart : cartList) {
+
+            Product product = cart.getProduct();
+
+            cartTotal +=
+                    product.getIncludeTax()
+                    * cart.getQuantity();
+        }
+
+        // カート情報を画面へ渡す
+        model.addAttribute("cartList", cartList);
+
+        // ユーザー情報を画面へ渡す
+        model.addAttribute("user", user);
+        
+        model.addAttribute("cartTotal", cartTotal);
+
+        // 購入品詳細画面
+        return "purchaseDetail";
+    }
+
+    /*
+     * =========================
+     * カート購入確認画面
+     * =========================
+     */
+    @PostMapping("/purchase/cart/confirm")
+    public String purchaseCartConfirm(
+            @AuthenticationPrincipal LoginUserDetails loginUser,
+            String deliveryAddress,
+            String paymentMethod,
+            Model model) {
+
+        User user = loginUser.getUser();
+
+        List<Cart> cartList =
+                cartRepository.findByUser_UserId(
+                        user.getUserId()
+                );
+
+        // カートが空ならカート画面へ
+        if (cartList.isEmpty()) {
+            return "redirect:/cart/add";
+        }
+
+        // 合計金額
+        int totalAmount = 0;
+
+        for (Cart cart : cartList) {
+
+            Product product = cart.getProduct();
+
+            // 在庫チェック
+            if (cart.getQuantity() > product.getStock()) {
+                return "redirect:/cart";
+            }
+
+            totalAmount +=
+                    product.getIncludeTax()
+                    * cart.getQuantity();
+        }
+
+        // 住所を分解
+        String name = "";
+        String address = "";
+        String apartment = "";
+
+        if (deliveryAddress != null) {
+
+            String[] addressData =
+                    deliveryAddress.split(" / ", -1);
+
+            if (addressData.length > 0) {
+                name = addressData[0];
+            }
+
+            if (addressData.length > 1) {
+                address = addressData[1];
+            }
+
+            if (addressData.length > 2) {
+                apartment = addressData[2];
+            }
+        }
+
+        model.addAttribute("cartList", cartList);
+        model.addAttribute("totalAmount", totalAmount);
+
+        model.addAttribute(
+                "deliveryAddress",
+                deliveryAddress
+        );
+
+        model.addAttribute(
+                "paymentMethod",
+                paymentMethod
+        );
+
+        model.addAttribute("name", name);
+        model.addAttribute("address", address);
+        model.addAttribute("apartment", apartment);
+
+        return "purchaseConfirm";
+    }
+    
+    /*
+     * =========================
+     * カート購入完了処理
+     * =========================
+     */
+    @PostMapping("/purchase/cart/complete")
+    @Transactional
+    public String purchaseCartComplete(
+            @AuthenticationPrincipal LoginUserDetails loginUser,
+            String deliveryAddress,
+            String paymentMethod,
+            Model model) {
+
+        /*
+         * =========================
+         * ログインユーザー取得
+         * =========================
+         */
+        User user = loginUser.getUser();
+
+
+        /*
+         * =========================
+         * カート取得
+         * =========================
+         */
+        List<Cart> cartList =
+                cartRepository.findByUser_UserId(
+                        user.getUserId()
+                );
+
+
+        /*
+         * カートが空の場合
+         */
+        if (cartList.isEmpty()) {
+            return "redirect:/cart/add";
+        }
+
+
+        /*
+         * =========================
+         * 在庫チェック
+         * =========================
+         */
+        for (Cart cart : cartList) {
+
+            Product product = cart.getProduct();
+
+            /*
+             * 数量チェック
+             */
+            if (cart.getQuantity() == null
+                    || cart.getQuantity() <= 0) {
+
+                return "redirect:/cart";
+            }
+
+            /*
+             * 在庫チェック
+             */
+            if (cart.getQuantity() > product.getStock()) {
+
+                return "redirect:/cart";
+            }
+        }
+
+
+        /*
+         * =========================
+         * カート合計金額
+         * =========================
+         */
+        int totalAmount = 0;
+
+        for (Cart cart : cartList) {
+
+            Product product = cart.getProduct();
+
+            totalAmount +=
+                    product.getIncludeTax()
+                    * cart.getQuantity();
+        }
+
+
+        /*
+         * =========================
+         * ordersに登録
+         * =========================
+         */
+        Order order = new Order();
+
+        order.setUser(user);
+        order.setTotalAmount(totalAmount);
+        order.setStatus("注文受付");
+
+        orderRepository.save(order);
+
+
+        /*
+         * =========================
+         * order_itemsに登録
+         * =========================
+         */
+        for (Cart cart : cartList) {
+
+            Product product = cart.getProduct();
+
+            OrderItem orderItem = new OrderItem();
+
+            orderItem.setOrder(order);
+            orderItem.setProduct(product);
+            orderItem.setQuantity(
+                    cart.getQuantity()
+            );
+
+            /*
+             * 購入時点の税込価格を保存
+             */
+            orderItem.setPrice(
+                    product.getIncludeTax()
+            );
+
+            orderItemRepository.save(orderItem);
+
+
+            /*
+             * =========================
+             * 商品在庫を減らす
+             * =========================
+             */
+            product.setStock(
+                    product.getStock()
+                    - cart.getQuantity()
+            );
+
+            productRepository.save(product);
+        }
+
+
+        /*
+         * =========================
+         * 住所を分解
+         * =========================
+         *
+         * deliveryAddressの形式
+         *
+         * 名前 / 住所 / アパート名
+         */
+        String completeAddress = "";
+
+        if (deliveryAddress != null) {
+
+            String[] addressData =
+                    deliveryAddress.split(" / ", -1);
+
+            /*
+             * addressData[0] = 名前
+             * addressData[1] = 住所
+             * addressData[2] = アパート名
+             */
+
+            if (addressData.length > 1) {
+
+                completeAddress =
+                        addressData[1];
+            }
+
+            if (addressData.length > 2) {
+
+                completeAddress +=
+                        addressData[2];
+            }
+        }
+
+
+        /*
+         * =========================
+         * 完了画面へ渡す
+         * =========================
+         */
+
+        model.addAttribute(
+                "cartList",
+                cartList
+        );
+
+        model.addAttribute(
+                "totalAmount",
+                totalAmount
+        );
+
+        model.addAttribute(
+                "user",
+                user
+        );
+
+        model.addAttribute(
+                "completeAddress",
+                completeAddress
+        );
+
+
+        /*
+         * =========================
+         * カートを空にする
+         * =========================
+         */
+        cartRepository.deleteAll(cartList);
+
+
+        /*
+         * =========================
+         * 購入完了画面
+         * =========================
+         */
+        return "purchaseComplete";
     }
 
 

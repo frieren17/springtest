@@ -3,6 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <title>カート内詳細画面</title>
+
 </head>
 <body>
 	<div th:replace="~{common/header :: header}"></div>
@@ -176,6 +177,67 @@
 	        </div>
 
 	    </div>
+		
+		
+		
+		<!-- =====================================
+		         カート合計
+		         ===================================== -->
+
+		    <hr>
+
+		    <div>
+
+		        個数：
+
+		        <span
+		            th:text="${totalQuantity}">
+		        </span>
+
+		        個
+
+		    </div>
+
+
+		    <div>
+
+		        金額：
+
+		        <span
+		            th:text="${totalPrice}">
+		        </span>
+
+		        円
+
+		    </div>
+
+
+		    <div>
+
+		        税込み合計：
+
+		        <span
+		            th:text="${totalIncludeTax}">
+		        </span>
+
+		        円
+
+		    </div>
+
+
+		    <!-- =====================================
+		         レジに進む
+		         ===================================== -->
+
+		    <form
+		        th:action="@{/purchase/cart}"
+		        method="get">
+
+		        <button type="submit">
+		            レジに進む
+		        </button>
+
+		    </form>
 
 
 	    <hr>

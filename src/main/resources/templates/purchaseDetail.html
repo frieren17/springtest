@@ -164,10 +164,19 @@
 <h1>購入詳細画面</h1>
 
 
+
+<!--<form-->
+<!--    th:action="@{/purchase/confirm}"-->
+<!--    method="post"-->
+<!--    id="purchaseForm">-->
 <form
-    th:action="@{/purchase/confirm}"
+    th:action="${cartList != null}
+        ? @{/purchase/cart/confirm}
+        : @{/purchase/confirm}"
     method="post"
     id="purchaseForm">
+
+
 
 
     <!-- ===================================== -->
@@ -351,15 +360,17 @@
     <!-- Controllerへ送る値 -->
     <!-- ===================================== -->
 
-    <input
-        type="hidden"
-        name="productId"
-        th:value="${product.productId}">
-
-    <input
-        type="hidden"
-        name="quantity"
-        th:value="${quantity}">
+	<div th:if="${product != null}">
+	    <input
+	        type="hidden"
+	        name="productId"
+	        th:value="${product.productId}">
+	
+	    <input
+	        type="hidden"
+	        name="quantity"
+	        th:value="${quantity}">
+	</div>
 
     <input
         type="hidden"

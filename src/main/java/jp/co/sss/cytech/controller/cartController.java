@@ -149,6 +149,11 @@ public class cartController {
         model.addAttribute("cartList", cartList);
 
         /*
+         * カート内の合計個数
+         */
+        int totalQuantity = 0;
+
+        /*
          * 税抜き合計金額
          */
         int totalPrice = 0;
@@ -162,18 +167,82 @@ public class cartController {
 
             Product product = cart.getProduct();
 
+            /*
+             * カート内個数
+             */
+            totalQuantity += cart.getQuantity();
+
+            /*
+             * 税抜き合計
+             */
             totalPrice +=
                     product.getPrice() * cart.getQuantity();
 
+            /*
+             * 税込み合計
+             */
             totalIncludeTax +=
                     product.getIncludeTax() * cart.getQuantity();
         }
 
-        model.addAttribute("totalPrice", totalPrice);
-        model.addAttribute("totalIncludeTax", totalIncludeTax);
+        /*
+         * HTMLへ渡す
+         */
+        model.addAttribute(
+                "totalQuantity",
+                totalQuantity
+        );
+
+        model.addAttribute(
+                "totalPrice",
+                totalPrice
+        );
+
+        model.addAttribute(
+                "totalIncludeTax",
+                totalIncludeTax
+        );
 
         return "checkoutDetail";
     }
+//    @GetMapping("/cart")
+//    public String cart(
+//            @AuthenticationPrincipal LoginUserDetails loginUser,
+//            Model model) {
+//
+//        List<Cart> cartList =
+//                cartRepository.findByUser_UserId(
+//                        loginUser.getUser().getUserId()
+//                );
+//
+//        model.addAttribute("cartList", cartList);
+//
+//        /*
+//         * 税抜き合計金額
+//         */
+//        int totalPrice = 0;
+//
+//        /*
+//         * 税込み合計金額
+//         */
+//        int totalIncludeTax = 0;
+//
+//        for (Cart cart : cartList) {
+//
+//            Product product = cart.getProduct();
+//
+//            totalPrice +=
+//                    product.getPrice() * cart.getQuantity();
+//
+//            totalIncludeTax +=
+//                    product.getIncludeTax() * cart.getQuantity();
+//        }
+//
+//        model.addAttribute("totalPrice", totalPrice);
+//        model.addAttribute("totalIncludeTax", totalIncludeTax);
+//
+//        return "checkoutDetail";
+//    }
 
 
     /*

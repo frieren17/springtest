@@ -91,31 +91,96 @@
 
 
 <!-- 商品名 -->
-<div class="row">
+<!--<div class="row">-->
 
-    商品名：
-    <span th:text="${product.productName}"></span>
+<!--    商品名：-->
+<!--    <span th:text="${product.productName}"></span>-->
 
-</div>
+<!--</div>-->
 
 
 <!-- 個数 -->
-<div class="row">
+<!--<div class="row">-->
 
-    個数：
-    <span th:text="${quantity}"></span>
+<!--    個数：-->
+<!--    <span th:text="${quantity}"></span>-->
 
-</div>
+<!--</div>-->
 
 
 <!-- 合計金額 -->
-<div class="row">
+<!--<div class="row">-->
 
-    合計金額：
-    <span th:text="${product.includeTax * quantity}"></span>
-    円
+<!--    合計金額：-->
+<!--    <span th:text="${product.includeTax * quantity}"></span>-->
+<!--    円-->
+
+<!--</div>-->
+
+<!-- ============================== -->
+<!-- 単品購入 -->
+<!-- ============================== -->
+
+<div th:if="${product != null}">
+
+    <div class="row">
+
+        商品名：
+        <span th:text="${product.productName}"></span>
+
+    </div>
+
+    <div class="row">
+
+        個数：
+        <span th:text="${quantity}"></span>
+
+    </div>
+
+    <div class="row">
+
+        合計金額：
+        <span th:text="${product.includeTax * quantity}"></span>
+        円
+
+    </div>
 
 </div>
+
+
+<!-- ============================== -->
+<!-- カート購入 -->
+<!-- ============================== -->
+
+<div th:if="${cartList != null}">
+
+    <div
+        class="row"
+        th:each="cart : ${cartList}">
+
+        <span th:text="${cart.product.productName}"></span>
+        ×
+        <span th:text="${cart.quantity}"></span>
+        個
+
+        ：
+        <span
+            th:text="${cart.product.includeTax * cart.quantity}">
+        </span>
+        円
+
+    </div>
+
+    <div class="row">
+
+        合計金額：
+        <span th:text="${totalAmount}"></span>
+        円
+
+    </div>
+
+</div>
+
 
 
 <!-- ボタン -->
@@ -123,62 +188,167 @@
 
 
     <!-- 編集ボタン -->
-    <form
-        th:action="@{/purchase/{id}(id=${product.productId})}"
-        method="get"
-        style="display: inline;">
+<!--    <form-->
+<!--        th:action="@{/purchase/{id}(id=${product.productId})}"-->
+<!--        method="get"-->
+<!--        style="display: inline;">-->
 
-        <input
-            type="hidden"
-            name="quantity"
-            th:value="${quantity}">
+<!--        <input-->
+<!--            type="hidden"-->
+<!--            name="quantity"-->
+<!--            th:value="${quantity}">-->
 
-        <button
-            type="submit"
-            class="back-button">
+<!--        <button-->
+<!--            type="submit"-->
+<!--            class="back-button">-->
 
-            編集
+<!--            編集-->
 
-        </button>
+<!--        </button>-->
 
-    </form>
+<!--    </form>-->
+<!-- 単品購入の編集 -->
+<form
+    th:if="${product != null}"
+    th:action="@{/purchase/{id}(id=${product.productId})}"
+    method="get"
+    style="display: inline;">
+
+    <input
+        type="hidden"
+        name="quantity"
+        th:value="${quantity}">
+
+    <button
+        type="submit"
+        class="back-button">
+
+        編集
+
+    </button>
+
+</form>
+
+
+<!-- カート購入の編集 -->
+<form
+    th:if="${cartList != null}"
+    th:action="@{/purchase/cart}"
+    method="get"
+    style="display: inline;">
+
+    <button
+        type="submit"
+        class="back-button">
+
+        編集
+
+    </button>
+
+</form>
+
 
 
     <!-- 購入ボタン -->
-    <form
-        th:action="@{/purchase/complete}"
-        method="post"
-        style="display: inline;">
+<!--    <form-->
+<!--        th:action="@{/purchase/complete}"-->
+<!--        method="post"-->
+<!--        style="display: inline;">-->
 
-        <input
-            type="hidden"
-            name="productId"
-            th:value="${product.productId}">
+<!--        <input-->
+<!--            type="hidden"-->
+<!--            name="productId"-->
+<!--            th:value="${product.productId}">-->
 
-        <input
-            type="hidden"
-            name="quantity"
-            th:value="${quantity}">
+<!--        <input-->
+<!--            type="hidden"-->
+<!--            name="quantity"-->
+<!--            th:value="${quantity}">-->
 
-        <input
-            type="hidden"
-            name="deliveryAddress"
-            th:value="${deliveryAddress}">
+<!--        <input-->
+<!--            type="hidden"-->
+<!--            name="deliveryAddress"-->
+<!--            th:value="${deliveryAddress}">-->
 
-        <input
-            type="hidden"
-            name="paymentMethod"
-            th:value="${paymentMethod}">
+<!--        <input-->
+<!--            type="hidden"-->
+<!--            name="paymentMethod"-->
+<!--            th:value="${paymentMethod}">-->
 
-        <button
-            type="submit"
-            class="confirm-button">
+<!--        <button-->
+<!--            type="submit"-->
+<!--            class="confirm-button">-->
 
-            購入
+<!--            購入-->
 
-        </button>
+<!--        </button>-->
 
-    </form>
+<!--    </form>-->
+<!-- 単品購入 -->
+<form
+    th:if="${product != null}"
+    th:action="@{/purchase/complete}"
+    method="post"
+    style="display: inline;">
+
+    <input
+        type="hidden"
+        name="productId"
+        th:value="${product.productId}">
+
+    <input
+        type="hidden"
+        name="quantity"
+        th:value="${quantity}">
+
+    <input
+        type="hidden"
+        name="deliveryAddress"
+        th:value="${deliveryAddress}">
+
+    <input
+        type="hidden"
+        name="paymentMethod"
+        th:value="${paymentMethod}">
+
+    <button
+        type="submit"
+        class="confirm-button">
+
+        購入
+
+    </button>
+
+</form>
+
+
+<!-- カート購入 -->
+<form
+    th:if="${cartList != null}"
+    th:action="@{/purchase/cart/complete}"
+    method="post"
+    style="display: inline;">
+
+    <input
+        type="hidden"
+        name="deliveryAddress"
+        th:value="${deliveryAddress}">
+
+    <input
+        type="hidden"
+        name="paymentMethod"
+        th:value="${paymentMethod}">
+
+    <button
+        type="submit"
+        class="confirm-button">
+
+        購入
+
+    </button>
+
+</form>
+
 
 
 </div>
