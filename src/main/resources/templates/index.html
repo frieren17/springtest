@@ -3,44 +3,48 @@
 <head>
 <meta charset="UTF-8">
 <title>TOP画面</title>
+<link rel="stylesheet" th:href="@{/css/common.css}">
+<link rel="stylesheet" th:href="@{/css/index.css}">
 </head>
 <body>
 
     <div th:replace="~{common/header :: layout-header}"></div>
 
+	<main class="top-page">
+		
     <h1>TOP画面</h1>
-
-    <h2>セール品</h2>
+		
+	<div class="sale-title">セール品</div>
 
 
     <!-- カテゴリごとに表示 -->
-    <div th:each="entry : ${salesByCategory}">
+	<div class="sales-grid">
+    	<div class="sales-category" th:each="entry : ${salesByCategory}">
+			<a
+	            class="sales-item"
+	            th:each="salesItem : ${entry.value}"
+	            th:href="@{/product/{id}(id=${salesItem.productId})}">
 
         <!-- カテゴリ名 -->
 <!--		<h3 th:text="${categoryMap[entry.key].categoryName}">-->
 <!--		    カテゴリ名-->
 <!--		</h3>-->
-
-
         <!-- そのカテゴリのセール商品 -->
-        <div th:each="salesItem : ${entry.value}">
-
+<!--        <div th:each="salesItem : ${entry.value}">-->
             <!-- 商品詳細画面へのリンク -->
-            <a th:href="@{/product/{id}(id=${salesItem.productId})}">
+<!--            <a th:href="@{/product/{id}(id=${salesItem.productId})}">-->
 
                 <!-- セール画像だけ表示 -->
                 <img
                     th:src="@{${salesItem.salesImgPath}}"
-                    width="150"
-                    alt="セール商品"
-                >
+                    alt="セール商品">
 
             </a>
 
         </div>
 
     </div>
-
+	</main>
 
     <div th:replace="~{common/footer :: footer}"></div>
 

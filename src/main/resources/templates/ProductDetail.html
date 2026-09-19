@@ -3,189 +3,222 @@
 <head>
 <meta charset="UTF-8">
 <title>商品詳細画面</title>
+<link rel="stylesheet" th:href="@{/css/common.css}">
+<link rel="stylesheet" th:href="@{/css/product-detail.css}">
 </head>
-<body>
+<body th:attr="
+    data-price=${product.price},
+    data-include-tax=${product.includeTax}">
+	
+	<div th:replace="~{common/header :: layout-header}"></div>
+	
 	<h1>商品詳細画面</h1>
 	
-	<div th:replace="~{common/header :: header}"></div>
-	
-	
-	<div>
-		商品名：
-		<span th:text="${product.productName}"></span>
-	</div>
-	
-	<div>
-		メーカー名：
-		<span th:text="${product.company.companyName}"></span>
-	</div>
-	
-	<div>
-		価格：
-		<span th:text="${product.price}"></span>円
-	</div>
-	
-	<div>
-		税込価格：
-		<span th:text="${product.includeTax}"></span>円
-	</div>
-	
-	<div>
-		在庫数：
-		<span th:text="${product.stock}"></span>
-	</div>
-	
-	<img th:src="@{${product.imgPath}}">
-	
-	
-	<!-- カート追加 -->
-	<div>
-		<form th:action="@{/cart/add/{id}(id=${product.productId})}" method="post">
-
-	        <input type="hidden" id="cartQuantity" name="quantity" value="1">
-
-	        <button type="submit">カートに入れる</button>
-
-	    </form>
+	<main class="product-detail-container">
 		
-	    <div>
-	        <label for="quantity">数量：</label>
-
-	        <select id="quantity">
-	            <option
-	                th:each="i : ${#numbers.sequence(1, product.stock)}"
-	                th:value="${i}"
-	                th:text="${i}">
-	            </option>
-	        </select>
-	    </div>
-
-	    <div>
-	        価格：
-	        <span id="subtotal"></span>円
-	    </div>
-
-	    <div>
-	        税込価格：
-	        <span id="total"></span>円
-	    </div>
-		
-		<div>
-	        在庫表示：
-	        <span th:text="${product.stock}"></span>
-	    </div>
-		
-		<!-- 単品購入 -->
-		<form th:action="@{/purchase/{id}(id=${product.productId})}" method="get">
-
-		    <input type="hidden" id="purchaseQuantity" name="quantity" value="1">
-
-		    <button type="submit">単品購入</button>
-		</form>
-
-	</div>
+	<!-- 商品情報 -->
+	    <section class="product-detail">
+			
+			<!-- 商品画像 -->
+			<div class="detail-image-area">
+				<img th:src="@{${product.imgPath}}" class="detail-image">
+			</div>
+			
+			<!-- 商品情報 -->
+			<div class="detail-info">
+				<p>
+					商品名：
+					<span th:text="${product.productName}"></span>
+				</p>
+				
+				<p>
+					メーカー名：
+					<span th:text="${product.company.companyName}"></span>
+				</p>
+				
+				<p>
+					価格：
+					<span th:text="${product.price}"></span>円
+				</p>
+				
+				<p>
+					税込価格：
+					<span th:text="${product.includeTax}"></span>円
+				</p>
+				
+				<p>
+					在庫数：
+					<span th:text="${product.stock}"></span>
+				</p>
+			</div>
 	
 	
-	<h2><口コミ></h2>
-
-	<div th:if="${#lists.isEmpty(reviews)}">
-	    口コミはまだありません
-	</div>
-
-	<div th:each="review : ${reviews}">
-
-	    <hr>
-
-		<div>
-		    ユーザー名：
-			<span th:text="
-			${review.dummyUserName != null
-			&& review.dummyUserName != ''
-			? review.dummyUserName
-			: review.user.userName}">
-			</span>
+	
+			<!-- カート追加 -->
+			<div class="cart-area">
+				<form th:action="@{/cart/add/{id}(id=${product.productId})}" method="post">
+		
+			        <input type="hidden" id="cartQuantity" name="quantity" value="1">
+		
+			        <button type="submit" class="cart-button">カートに入れる</button>
+		
+			    </form>
+				
+			    <div class="quantity-area">
+			        <label for="quantity">数量：</label>
+		
+			        <select id="quantity">
+			            <option
+			                th:each="i : ${#numbers.sequence(1, product.stock)}"
+			                th:value="${i}"
+			                th:text="${i}">
+			            </option>
+			        </select>
+			    </div>
+		
+				<div class="price-area">
+				    <p>
+				        価格：
+				        <span id="subtotal"></span>円
+				    </p>
+			
+				    <p>
+				        税込価格：
+				        <span id="total"></span>円
+				    </p>
+					
+					<p>
+				        在庫表示：
+				        <span th:text="${product.stock}"></span>
+				    </p>
+				</div>
+				
+				
+		
+			</div>
+		</section>
+	
+		
+		<!-- 口コミ -->
+		<section class="review-section">
+			
+		<h2><口コミ></h2>
+	
+		<div th:if="${#lists.isEmpty(reviews)}" class="no-review">
+		    口コミはまだありません
+		</div>
+	
+		<div th:each="review : ${reviews}" class="review">
+	
+			<div class="review-user">
+			    ユーザー名：
+				<span th:text="
+				${review.dummyUserName != null
+				&& review.dummyUserName != ''
+				? review.dummyUserName
+				: review.user.userName}">
+				</span>
+			</div>
+	
+		    <div>
+		        評価(5段階)：
+		        <span th:text="${review.rating}"></span>
+		    </div>
+	
+		    <div>
+		        コメント：
+		        <span th:text="${review.comment}"></span>
+		    </div>
+	
+		    <div>
+		        投稿日時：
+				<span th:text=
+				"${#temporals.format(review.createdAt,
+				'yyyy/MM/dd HH:mm')}">
+				</span>
+		    </div>
+	
 		</div>
 
-	    <div>
-	        評価(5段階)：
-	        <span th:text="${review.rating}"></span>
-	    </div>
-
-	    <div>
-	        コメント：
-	        <span th:text="${review.comment}"></span>
-	    </div>
-
-	    <div>
-	        投稿日時：
-			<span th:text=
-			"${#temporals.format(review.createdAt,
-			'yyyy/MM/dd HH:mm')}">
-			</span>
-	    </div>
-
-	</div>
-	<!--	<a th:href="@{/review/form/{id}(id=${product.productId})}">口コミ投稿</a>-->
-	<form th:action="@{/review/form/{id}(id=${product.productId})}" method="get">
-	    <button type="submit">口コミ投稿</button>
-	</form>
-	
-	<div th:replace="~{common/footer :: footer}"></div>
-	
-	
-	<script th:inline="javascript">
-
-	    const price = /*[[${product.price}]]*/ 0;
-	    const includeTax = /*[[${product.includeTax}]]*/ 0;
-
-	    const quantitySelect =
-	        document.getElementById("quantity");
-
-	    const subtotalElement =
-	        document.getElementById("subtotal");
-
-	    const totalElement =
-	        document.getElementById("total");
-
-	    const cartQuantity =
-	        document.getElementById("cartQuantity");
+		<div class="review-buttons">
+			<form th:action="@{/review/form/{id}(id=${product.productId})}" method="get">
+			    <button type="submit" class="review-button">口コミ投稿</button>
+			</form>
 			
-		const purchaseQuantity =
-		    document.getElementById("purchaseQuantity");
+			<!-- 単品購入 -->
+			<form th:action="@{/purchase/{id}(id=${product.productId})}" method="get">
+	
+			    <input type="hidden" id="purchaseQuantity" name="quantity" value="1">
+	
+			    <button type="submit" class="purchase-button">単品購入</button>
+			</form>
+		</div>
+		
+		</section>
+	</main>
+		
+	<div th:replace="~{common/footer :: layout-footer}"></div>
 
-
-	    function updatePrice() {
-
-	        const quantity =
-	            Number(quantitySelect.value);
-
-	        const subtotal =
-	            price * quantity;
-
-	        const total =
-	            includeTax * quantity;
-
-	        subtotalElement.textContent =
-	            subtotal.toLocaleString();
-
-	        totalElement.textContent =
-	            total.toLocaleString();
-
-	        cartQuantity.value = quantity;
-			
-			purchaseQuantity.value = quantity;
-	    }
-
-
-	    quantitySelect.addEventListener(
-	        "change",
-	        updatePrice
-	    );
-
-
-	    // 初期表示
-	    updatePrice();
-
-	</script>
+	
+	<script th:src="@{/js/product-detail.js}"></script>
+	
 </body>
 </html>
+<!--	<script th:inline="javascript">-->
+
+<!--	    const price = /*[[${product.price}]]*/ 0;-->
+<!--	    const includeTax = /*[[${product.includeTax}]]*/ 0;-->
+
+<!--	    const quantitySelect =-->
+<!--	        document.getElementById("quantity");-->
+
+<!--	    const subtotalElement =-->
+<!--	        document.getElementById("subtotal");-->
+
+<!--	    const totalElement =-->
+<!--	        document.getElementById("total");-->
+
+<!--	    const cartQuantity =-->
+<!--	        document.getElementById("cartQuantity");-->
+			
+<!--		const purchaseQuantity =-->
+<!--		    document.getElementById("purchaseQuantity");-->
+
+
+<!--	    function updatePrice() {-->
+
+<!--	        const quantity =-->
+<!--	            Number(quantitySelect.value);-->
+
+<!--	        const subtotal =-->
+<!--	            price * quantity;-->
+
+<!--	        const total =-->
+<!--	            includeTax * quantity;-->
+
+<!--	        subtotalElement.textContent =-->
+<!--	            subtotal.toLocaleString();-->
+
+<!--	        totalElement.textContent =-->
+<!--	            total.toLocaleString();-->
+
+<!--	        cartQuantity.value = quantity;-->
+			
+<!--			purchaseQuantity.value = quantity;-->
+<!--	    }-->
+
+
+<!--	    quantitySelect.addEventListener(-->
+<!--	        "change",-->
+<!--	        updatePrice-->
+<!--	    );-->
+
+
+<!--	    // 初期表示-->
+<!--	    updatePrice();-->
+
+<!--	</script>-->
+
+<!--</bodyth:attr="-->
+<!--    data-price=${product.price},-->
+<!--    data-include-tax=${product.includeTax}">-->

@@ -6,152 +6,9 @@
     <meta charset="UTF-8">
 
     <title>購入詳細画面</title>
+	<link rel="stylesheet" th:href="@{/css/common.css}">
+	<link rel="stylesheet" th:href="@{/css/purchaseDetail.css}">
 
-    <style>
-
-        body {
-            margin: 0;
-            padding: 20px 35px 80px 35px;
-            font-family: Arial, sans-serif;
-            color: #222;
-        }
-
-        h1 {
-            font-size: 30px;
-            margin-bottom: 55px;
-        }
-
-        .section-title {
-            font-size: 16px;
-            margin-left: 15px;
-            margin-bottom: 20px;
-        }
-
-        /*
-         * ラジオボタン＋入力欄全体
-         */
-        .choice-row {
-            display: flex;
-            align-items: flex-start;
-            margin-bottom: 16px;
-        }
-
-        /*
-         * ラジオボタン
-         */
-        .choice-row input[type="radio"] {
-            width: 20px;
-            height: 20px;
-            margin-top: 8px;
-            margin-right: 70px;
-            flex-shrink: 0;
-        }
-
-        /*
-         * 住所・カードの枠
-         */
-        .choice-box {
-            width: calc(100% - 120px);
-            border: 1px solid #d9dee3;
-            padding: 25px 18px 17px 18px;
-            box-sizing: border-box;
-        }
-
-        /*
-         * 住所入力
-         */
-        .form-label {
-            display: block;
-            margin-bottom: 7px;
-            font-size: 16px;
-        }
-
-        .form-input {
-            width: 100%;
-            height: 40px;
-            border: 1px solid #d9dee3;
-            border-radius: 6px;
-            padding: 0 12px;
-            box-sizing: border-box;
-            font-size: 15px;
-            margin-bottom: 18px;
-        }
-
-        /*
-         * 名前
-         */
-        .name-input {
-            width: 100%;
-            height: 40px;
-            border: none;
-            border-bottom: 1px solid #d9dee3;
-            padding: 0 0;
-            box-sizing: border-box;
-            font-size: 15px;
-            margin-bottom: 18px;
-            outline: none;
-        }
-
-        /*
-         * カード番号
-         */
-        .card-number {
-            width: 585px;
-            max-width: 100%;
-            height: 40px;
-            border: 1px solid #d9dee3;
-            border-radius: 6px;
-            padding: 0 12px;
-            box-sizing: border-box;
-            font-size: 15px;
-            margin-bottom: 16px;
-        }
-
-        /*
-         * 有効期限
-         */
-        .card-expiry {
-            width: 300px;
-            max-width: 100%;
-            height: 40px;
-            border: 1px solid #d9dee3;
-            border-radius: 6px;
-            padding: 0 12px;
-            box-sizing: border-box;
-            font-size: 15px;
-        }
-
-        /*
-         * お支払い情報との間隔
-         */
-        .payment-section {
-            margin-top: 48px;
-        }
-
-        /*
-         * 確認ボタン
-         */
-        .confirm-button {
-            margin-top: 48px;
-            margin-left: 10px;
-
-            background-color: #0d6efd;
-            color: white;
-
-            border: none;
-            border-radius: 6px;
-
-            padding: 10px 18px;
-
-            font-size: 16px;
-            cursor: pointer;
-        }
-
-        .confirm-button:hover {
-            background-color: #0b5ed7;
-        }
-
-    </style>
 
 </head>
 
@@ -163,7 +20,7 @@
 
 <h1>購入詳細画面</h1>
 
-
+<main class="purchase-detail-page">
 
 <!--<form-->
 <!--    th:action="@{/purchase/confirm}"-->
@@ -396,111 +253,11 @@
 
 </form>
 
-
+</main>
 <div th:replace="~{common/footer :: footer}"></div>
 
+<script th:src="@{/js/purchase-detail.js}"></script>
 
-<script>
-
-    /*
-     * 選択されている住所を取得
-     */
-    function getSelectedAddress() {
-
-        const selected =
-            document.querySelector(
-                'input[name="addressChoice"]:checked'
-            );
-
-        if (selected.value === "1") {
-
-            const name =
-                document.getElementById("name1").value;
-
-            const address =
-                document.getElementById("address1").value;
-
-            const apartment =
-                document.getElementById("apartment1").value;
-
-            return name
-                + " / "
-                + address
-                + " / "
-                + apartment;
-
-        } else {
-
-            const name =
-                document.getElementById("name2").value;
-
-            const address =
-                document.getElementById("address2").value;
-
-            const apartment =
-                document.getElementById("apartment2").value;
-
-            return name
-                + " / "
-                + address
-                + " / "
-                + apartment;
-        }
-    }
-
-
-    /*
-     * 選択されているカードを取得
-     */
-    function getSelectedCard() {
-
-        const selected =
-            document.querySelector(
-                'input[name="cardChoice"]:checked'
-            );
-
-        if (selected.value === "1") {
-
-            const cardNumber =
-                document.getElementById("cardNumber1").value;
-
-            const expiry =
-                document.getElementById("cardExpiry1").value;
-
-            return cardNumber
-                + " / "
-                + expiry;
-
-        } else {
-
-            const cardNumber =
-                document.getElementById("cardNumber2").value;
-
-            const expiry =
-                document.getElementById("cardExpiry2").value;
-
-            return cardNumber
-                + " / "
-                + expiry;
-        }
-    }
-
-
-    /*
-     * 「確認」を押したとき
-     */
-    document.getElementById("purchaseForm")
-        .addEventListener("submit", function() {
-
-            document.getElementById("deliveryAddress").value =
-                getSelectedAddress();
-
-            document.getElementById("paymentMethod").value =
-                getSelectedCard();
-
-        });
-
-</script>
 
 
 </body>

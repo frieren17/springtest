@@ -2,9 +2,28 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>マイページ</title>
+<link rel="stylesheet" th:href="@{/css/common.css}">
+<link rel="stylesheet" th:href="@{/css/mypage.css}">
 </head>
 <body>
+	<div th:replace="~{common/header :: layout-header}"></div>
 	<h1>マイページ</h1>
+		<div class="mypage-info">
+			名前：
+			<span th:text="${user.userName}"></span>
+		</div>
+		
+		<div class="mypage-info">
+			ふりがな：
+			<span th:text="${user.userNameKana}"></span>
+		</div>
+		
+		<div class="mypage-info">
+			電話番号：
+			<span th:text="${user.phone}"></span>
+		</div>
+		
+	<div th:replace="~{common/footer :: layout-footer}"></div>
 </body>
 </html>

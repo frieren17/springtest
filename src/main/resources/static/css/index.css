@@ -1,0 +1,99 @@
+/* =========================
+   TOP画面
+========================= */
+
+.top-page {
+    width: 100%;
+    padding: 40px 34px 80px;
+}
+
+
+/* タイトル */
+
+.top-page h1 {
+    margin: 0 0 65px;
+
+    font-size: 42px;
+    font-weight: 700;
+}
+
+
+/* =========================
+   セール品タイトル
+========================= */
+
+.sale-title {
+    width: 100%;
+    height: 46px;
+
+    margin-bottom: 65px;
+
+    background-color: #ffbd16;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    font-size: 30px;
+    font-weight: 700;
+}
+
+
+/* =========================
+   商品一覧
+========================= */
+
+.sales-grid {
+    display: grid;
+
+    grid-template-columns:
+        repeat(4, minmax(0, 1fr));
+
+    gap: 65px;
+
+    padding: 0 16px;
+}
+
+
+/* 商品 */
+
+.sales-category {
+    display: contents;
+}
+
+
+.sales-item {
+    display: block;
+
+    width: 100%;
+
+    text-decoration: none;
+
+    overflow: hidden;
+
+    background-color: #dddfe5;
+}
+
+
+/* 商品画像 */
+
+.sales-item img {
+    display: block;
+
+    width: 100%;
+    aspect-ratio: 450 / 300;
+
+    object-fit: cover;
+}
+
+
+/* =========================
+   5個目を中央にする
+========================= */
+
+.sales-item:nth-child(5) {
+    grid-column: 2 / 4;
+
+    width: 50%;
+    justify-self: center;
+}

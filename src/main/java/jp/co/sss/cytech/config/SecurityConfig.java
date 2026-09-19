@@ -24,10 +24,20 @@ public class SecurityConfig {
         http
             // URLごとのアクセス制御
         	.userDetailsService(userDetailsService)
-            .authorizeHttpRequests(auth -> auth
-                .requestMatchers("/login", "/signup").permitAll()
-                .anyRequest().authenticated()
-            )
+        	.authorizeHttpRequests(auth -> auth
+    		    .requestMatchers(
+    		        "/login",
+    		        "/signup",
+    		        "/css/**",
+    		        "/js/**",
+    		        "/images/**"
+    		    ).permitAll()
+    		    .anyRequest().authenticated()
+    		)
+//            .authorizeHttpRequests(auth -> auth
+//                .requestMatchers("/login", "/signup").permitAll()
+//                .anyRequest().authenticated()
+//            )
 
             // ログイン設定
             .formLogin(form -> form

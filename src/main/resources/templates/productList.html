@@ -3,43 +3,49 @@
 <head>
 <meta charset="UTF-8">
 <title>商品一覧画面</title>
+<link rel="stylesheet" th:href="@{/css/common.css}">
+<link rel="stylesheet" th:href="@{/css/product-list.css}">
 </head>
 <body>
-
+	
+	<div th:replace="~{common/header :: layout-header}"></div>
+	
 	<h1>商品一覧画面</h1>
 	
-	<div th:replace="~{common/header :: header}"></div>
+	<main class="product-list-container">
 	
-	<div th:each="product : ${products}">
-	
-	    <a th:href="@{/product/{id}(id=${product.productId})}">
-	        <img th:src="@{${product.imgPath}}" width="150">
-	    </a>
-	
-	    <p>
-	        商品名：
-	        <span th:text="${product.productName}"></span>
-	    </p>
-	
-	    <p>
-	        メーカー名：
-	        <span th:text="${product.company.companyName}"></span>
-	    </p>
-	
-	    <p>
-	        価格：
-	        <span th:text="${product.price}"></span>円
-	    </p>
-	
-	    <p>
-	        税込価格：
-	        <span th:text="${product.includeTax}"></span>円
-	    </p>
-	
-	    <hr>
-	
-	</div>
-		
-	<div th:replace="~{common/footer :: footer}"></div>
+		<div class="product-grid">
+			<div class="product-card" th:each="product : ${products}">
+			
+			    <a th:href="@{/product/{id}(id=${product.productId})}" class="product-image-link">
+			        <img th:src="@{${product.imgPath}}" class="product-image">
+			    </a>
+			
+				<div class="product-info">
+				    <p>
+				        商品名：
+				        <span th:text="${product.productName}"></span>
+				    </p>
+				
+				    <p>
+				        メーカー名：
+				        <span th:text="${product.company.companyName}"></span>
+				    </p>
+				
+				    <p>
+				        価格：
+				        <span th:text="${product.price}"></span>円
+				    </p>
+				
+				    <p>
+				        税込価格：
+				        <span th:text="${product.includeTax}"></span>円
+				    </p>
+				</div>
+			
+			</div>
+		</div>
+	</main>	
+	<div th:replace="~{common/footer :: layout-footer}"></div>
 	</body>
 </html>

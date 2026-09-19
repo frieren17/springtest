@@ -1,0 +1,234 @@
+@charset "UTF-8";
+
+.product-detail-container {
+    width: 95%;
+    max-width: 1400px;
+
+    margin: 30px auto 80px;
+}
+
+
+.product-detail-container h1 {
+    font-size: 32px;
+
+    margin-bottom: 25px;
+}
+
+
+/* =========================
+   商品詳細
+========================= */
+
+.product-detail {
+    display: grid;
+
+    grid-template-columns:
+        1.2fr
+        1.2fr
+        0.8fr;
+
+    gap: 30px;
+
+    align-items: start;
+}
+
+
+/* 商品画像 */
+
+.detail-image-area {
+    background-color: #dfe2e8;
+
+    width: 100%;
+
+    aspect-ratio: 450 / 300;
+}
+
+
+.detail-image {
+    width: 100%;
+    height: 100%;
+
+    object-fit: cover;
+
+    display: block;
+}
+
+
+/* 商品情報 */
+
+.detail-info {
+    font-size: 20px;
+
+    line-height: 1.5;
+}
+
+
+.detail-info p {
+    margin: 8px 0;
+}
+
+
+/* =========================
+   カート
+========================= */
+
+.cart-area {
+    border: 1px solid #d5d9df;
+
+    padding: 20px;
+
+    min-height: 500px;
+}
+
+
+.cart-button {
+    background-color: #146ff5;
+
+    color: white;
+
+    border: none;
+
+    border-radius: 7px;
+
+    padding: 12px 20px;
+
+    font-size: 18px;
+
+    cursor: pointer;
+}
+
+
+.cart-button:hover {
+    background-color: #075dcc;
+}
+
+
+.quantity-area {
+    margin-top: 20px;
+
+    font-size: 18px;
+}
+
+
+.quantity-area select {
+    width: 100%;
+
+    height: 50px;
+
+    border: 1px solid #d5d9df;
+
+    border-radius: 7px;
+
+    padding: 0 10px;
+
+    font-size: 18px;
+}
+
+
+.price-area {
+    margin-top: 25px;
+
+    font-size: 18px;
+}
+
+
+.price-area p {
+    margin: 20px 0;
+}
+
+
+/* 単品購入 */
+
+.purchase-button {
+    background-color: #146ff5;
+
+    color: white;
+
+    border: none;
+
+    border-radius: 7px;
+
+    padding: 12px 20px;
+
+    font-size: 18px;
+
+    cursor: pointer;
+}
+
+
+/* =========================
+   口コミ
+========================= */
+
+.review-section {
+    margin-top: 60px;
+
+    width: 75%;
+}
+
+
+.review-section h2 {
+    font-size: 26px;
+
+    margin-bottom: 30px;
+}
+
+
+.review {
+    border-top: 1px solid #ddd;
+
+    padding: 20px 0;
+
+    line-height: 2;
+}
+
+
+.no-review {
+    padding: 20px 0;
+}
+
+
+.review-button {
+    background-color: #146ff5;
+
+    color: white;
+
+    border: none;
+
+    border-radius: 7px;
+
+    padding: 12px 20px;
+
+    font-size: 17px;
+
+    cursor: pointer;
+}
+
+/* 口コミ投稿・単品購入ボタン */
+
+.review-buttons {
+    display: flex;
+
+    align-items: center;
+
+    gap: 15px;
+
+    margin-top: 25px;
+}
+
+
+/* =========================
+   スマホ対応
+========================= */
+
+@media (max-width: 900px) {
+
+    .product-detail {
+        grid-template-columns: 1fr;
+    }
+
+    .review-section {
+        width: 100%;
+    }
+
+}

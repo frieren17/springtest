@@ -6,13 +6,13 @@
 </head>
 <body>
 
-	<header th:fragment="layout-header">
-	<div>Cytech EC.</div>
+	<header th:fragment="layout-header" class="site-header">
+	<div class="header-logo">Cytech EC.</div>
 		
 		<form th:action="@{/product/search}" method="get">
 			
 			<!-- 商品名 -->
-			<input type="text" name="keyword" placeholder="商品名を入力">
+			<input type="text" name="keyword" placeholder="商品名">
 
 	        <!-- カテゴリー -->
 	        <select name="categoryId">
@@ -31,18 +31,17 @@
 
 	    </form>
 
-	    <div>
+	    <div class="user-area">
 
-			<a th:href="@{/mypage}">
-	            <button type="button">マイページ</button>
+			<a th:href="@{/mypage}" class="mypage-button">
+	            マイページ
 	        </a>
-			ユーザー名：
-	        <span th:text="${session.loginUser?.userName}"></span>
-
-	    </div>
-
+			<div class="user-info">
+				<span>ユーザー名：</span>
+				<span th:text="${loginUser?.userName}"></span>
+			</div>
 		
-		<a th:href="@{/logout}">ログアウト</a>
+		<a th:href="@{/logout}" class="logout-link">ログアウト</a>
 	</header>
 </body>
 </html>

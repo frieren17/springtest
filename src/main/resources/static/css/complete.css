@@ -1,0 +1,140 @@
+/* =========================
+   購入完了画面
+========================= */
+
+
+/* 画面全体 */
+.complete-page {
+    margin: 0;
+    padding: 20px 35px 80px 35px;
+
+    font-family: Arial, "Hiragino Kaku Gothic ProN",
+                 "Yu Gothic", Meiryo, sans-serif;
+
+    color: #222;
+
+    /* 添付画像の薄いグリッド */
+    background-color: #fff;
+    background-image:
+        linear-gradient(#eeeeee 1px, transparent 1px),
+        linear-gradient(90deg, #eeeeee 1px, transparent 1px);
+    background-size: 47px 47px;
+}
+
+.purchase-complete-page {
+    padding: 20px 35px 80px 35px;
+}
+
+
+/* =========================
+   タイトル
+========================= */
+
+.complete-page h1 {
+    margin: 0 0 20px 0;
+
+    font-size: 28px;
+    font-weight: bold;
+}
+
+
+/* =========================
+   注文完了
+========================= */
+
+.complete-page .order-complete {
+    margin: 0 0 65px 0;
+
+    text-align: center;
+
+    font-size: 30px;
+    font-weight: bold;
+}
+
+
+/* =========================
+   商品情報
+========================= */
+
+.complete-page .purchase-info {
+/*    margin-left: 50px;*/
+
+    font-size: 16px;
+}
+
+
+/* 各項目 */
+.complete-page .info-row {
+    margin-bottom: 8px;
+}
+
+
+/* 商品画像 */
+.complete-page .purchase-info img {
+    display: block;
+
+    max-width: 200px;
+
+    margin-bottom: 10px;
+}
+
+
+/* 区切り線 */
+.complete-page .purchase-info hr {
+    margin: 20px 0;
+
+    border: 0;
+    border-top: 1px solid #ddd;
+}
+
+
+/* =========================
+   TOPへ戻るボタン
+========================= */
+.complete-page .top-button-area {
+    text-align: center;
+    margin-top: 105px;
+}
+
+/*.complete-page .top-button-area {*/
+/*    text-align: center;*/
+
+/*    margin-top: 105px;*/
+/*}*/
+
+
+/* ボタン */
+/*.complete-page .top-button {*/
+/*    display: inline-block;*/
+
+/*    padding: 9px 14px;*/
+
+/*    border-radius: 6px;*/
+
+/*    background-color: #5969e8;*/
+/*    color: #fff;*/
+
+/*    text-decoration: none;*/
+
+/*    font-size: 16px;*/
+/*}*/
+
+
+/* マウスを乗せたとき */
+/*.complete-page .top-button:hover {*/
+/*    background-color: #4b5bd5;*/
+/*}*/
+
+/* =========================
+   ボタン
+========================= */
+
+.confirm-button {
+    background-color: #0d6efd;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    padding: 10px 25px;
+    font-size: 18px;
+    cursor: pointer;
+}

@@ -1,0 +1,237 @@
+/* =========================
+   カート詳細
+========================= */
+
+.cart-detail-page {
+    padding: 35px 30px 80px;
+}
+
+
+/* =========================
+   タイトル
+========================= */
+
+.cart-detail-page h1 {
+    margin: 0 0 35px;
+
+    font-size: 20px;
+    font-weight: bold;
+}
+
+
+/* =========================
+   全体
+========================= */
+
+.cart-detail-container {
+    display: grid;
+
+    grid-template-columns: minmax(0, 1fr) 245px;
+
+    gap: 0;
+
+    align-items: start;
+}
+
+
+/* =========================
+   商品一覧
+========================= */
+
+.cart-products {
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 25px;
+}
+
+
+/* =========================
+   商品
+========================= */
+
+.cart-product {
+    display: grid;
+
+    grid-template-columns: 345px 1fr;
+
+    gap: 10px;
+
+    min-height: 227px;
+}
+
+
+/* =========================
+   商品画像
+========================= */
+
+.cart-product-image {
+    width: 345px;
+    height: 227px;
+
+    background-color: #e1e2e7;
+}
+
+
+.cart-product-image img {
+    display: block;
+
+    width: 345px;
+    height: 227px;
+
+    object-fit: cover;
+}
+
+
+/* =========================
+   商品情報
+========================= */
+
+.cart-product-info {
+    padding: 0;
+
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 0;
+
+    font-size: 13px;
+}
+
+
+.product-name {
+    margin-bottom: 14px;
+}
+
+
+/* =========================
+   数量
+========================= */
+
+.quantity-area {
+    margin-bottom: 10px;
+}
+
+
+.quantity-area form {
+    display: flex;
+
+    align-items: center;
+
+    flex-wrap: wrap;
+
+    gap: 5px;
+}
+
+
+.quantity-area label {
+    width: 100%;
+}
+
+
+.quantity-area select {
+    width: 175px;
+    height: 28px;
+
+    border: 1px solid #ddd;
+
+    border-radius: 5px;
+
+    padding: 0 8px;
+
+    background-color: white;
+}
+
+
+.quantity-update-button {
+    display: none;
+}
+
+
+/* =========================
+   削除
+========================= */
+
+.delete-area {
+    margin-bottom: 10px;
+}
+
+
+.delete-button {
+    border: none;
+
+    padding: 7px 10px;
+
+    border-radius: 5px;
+
+    background-color: #dc3545;
+
+    color: white;
+
+    font-size: 12px;
+
+    cursor: pointer;
+}
+
+
+/* =========================
+   金額
+========================= */
+
+.product-price {
+    margin-bottom: 10px;
+}
+
+
+.product-tax-price {
+    margin-bottom: 10px;
+}
+
+
+/* =========================
+   カート合計
+========================= */
+
+.cart-summary {
+    width: 245px;
+
+    min-height: 227px;
+
+    border: 1px solid #e5e5e5;
+
+    padding: 12px 10px;
+
+    font-size: 13px;
+
+    align-self: start;
+}
+
+
+.summary-row {
+    margin-bottom: 10px;
+
+    font-weight: bold;
+}
+
+
+/* =========================
+   レジに進む
+========================= */
+
+.checkout-button {
+    border: none;
+
+    padding: 7px 10px;
+
+    border-radius: 5px;
+
+    background-color: #0d6efd;
+
+    color: white;
+
+    font-size: 12px;
+
+    cursor: pointer;
+}

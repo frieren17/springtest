@@ -1,0 +1,124 @@
+@charset "UTF-8";
+
+body {
+    margin: 0;
+    background-color: white;
+    color: #222;
+    font-family: "Yu Gothic", "Meiryo", sans-serif;
+}
+
+
+/* 新規登録画面全体 */
+
+.signup-container {
+    width: 75%;
+    max-width: 900px;
+    margin: 50px auto 80px;
+}
+
+
+/* タイトル */
+
+.signup-container h1 {
+    text-align: center;
+    font-size: 42px;
+    margin: 20px 0 90px;
+}
+
+
+/* フォーム */
+
+.signup-form {
+    width: 100%;
+}
+
+
+/* 入力項目 */
+
+.form-group {
+    margin-bottom: 30px;
+}
+
+
+.form-group label {
+    display: block;
+    font-size: 22px;
+    margin-bottom: 12px;
+}
+
+
+/* 入力欄 */
+
+.form-group input {
+    display: block;
+
+    width: 100%;
+    height: 62px;
+
+    padding: 0 15px;
+
+    border: 1px solid #d5d9df;
+    border-radius: 10px;
+
+    font-size: 18px;
+
+    box-sizing: border-box;
+}
+
+
+/* 入力欄をクリックしたとき */
+
+.form-group input:focus {
+    outline: none;
+    border-color: #5571e8;
+}
+
+
+/* ボタン */
+
+.signup-buttons {
+    display: flex;
+    justify-content: space-between;
+
+    margin-top: 25px;
+}
+
+
+.register-button,
+.back-button {
+    border: none;
+
+    color: white;
+
+    padding: 14px 25px;
+
+    border-radius: 10px;
+
+    font-size: 20px;
+
+    cursor: pointer;
+}
+
+
+/* 登録 */
+
+.register-button {
+    background-color: #5369e8;
+}
+
+
+.register-button:hover {
+    background-color: #4057d8;
+}
+
+
+/* 戻る */
+
+.back-button {
+    background-color: #b9514a;
+}
+
+
+.back-button:hover {
+    background-color: #9f443e;
+}

@@ -3,6 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <title>カート追加画面</title>
+<link rel="stylesheet" th:href="@{/css/common.css}">
+<link rel="stylesheet" th:href="@{/css/checkout.css}">
 </head>
 
 <body>
@@ -11,9 +13,10 @@
 	
 	<h1>カート追加画面</h1>
 	
+	<main class="checkout-page">
 	
 	<!-- カートが空の場合 -->
-	<div th:if="${#lists.isEmpty(cartList)}">
+	<div th:if="${#lists.isEmpty(cartList)}" class="empty-cart">
 	
 	    <p>カートに商品がありません。</p>
 	
@@ -21,77 +24,96 @@
 	
 	
 	<!-- カートに商品がある場合 -->
-	<div th:unless="${#lists.isEmpty(cartList)}">
+	<div th:unless="${#lists.isEmpty(cartList)}" class="checkout-products">
 	
-	    <div th:each="cart : ${cartList}">
-	
-	        <hr>
+	    <div class="checkout-product" th:each="cart : ${cartList}">
 	
 	        <!-- 商品画像 -->
-	        <img th:src="@{${cart.product.imgPath}}"
-	             alt="商品画像"
-	             width="150">
-	
+			<div class="checkout-image">
+				
+		        <img th:src="@{${cart.product.imgPath}}"
+		             alt="商品画像"
+		             width="150">
+			</div>
+				 	
 	        <!-- 商品名 -->
-	        <div>
-	            商品名：
-	            <span th:text="${cart.product.productName}"></span>
-	        </div>
-	
-	        <!-- 個数 -->
-	        <div>
-	            個数：
-	            <span th:text="${cart.quantity}"></span>個
-	        </div>
-	
-	        <!-- カート内の合計 -->
-	        <div>
-	            カート内の合計：
-	            <span
-	                th:text="${cart.product.includeTax * cart.quantity}">
-	            </span>円
-	        </div>
-	
+			
+			<div class="checkout-info">
+				
+		        <div>
+		            商品名：
+		            <span th:text="${cart.product.productName}"></span>
+		        </div>
+		
+		        <!-- 個数 -->
+		        <div>
+		            個数：
+		            <span th:text="${cart.quantity}"></span>個
+		        </div>
+		
+		        <!-- カート内の合計 -->
+		        <div>
+		            カート内の合計：
+		            <span
+		                th:text="${cart.product.includeTax * cart.quantity}">
+		            </span>円
+		        </div>
+			</div>
 	    </div>
-	
-	    <hr>
 	
 	</div>
 	
 	
+	<div class="checkout-buttons">
+		
 	<!-- カート詳細画面へ -->
 	<form th:action="@{/cart}" method="get">
 	
-	    <button type="submit">
+	    <button type="submit" class="btn btn-blue">
 	        カートに移動
 	    </button>
 	
 	</form>
 	
 	<!-- レジに進む -->
-	<div th:unless="${#lists.isEmpty(cartList)}">
+	<form
+        th:unless="${#lists.isEmpty(cartList)}"
+        th:action="@{/purchase/cart}"
+        method="get">
 
-	    <form th:action="@{/purchase/cart}" method="get">
+        <button
+            type="submit"
+            class="btn btn-blue">
 
-	        <button type="submit">
-	            レジに進む
-	        </button>
+            レジに進む
 
-	    </form>
+        </button>
 
-	</div>
+    </form>
+<!--	<div th:unless="${#lists.isEmpty(cartList)}">-->
+
+<!--	    <form th:action="@{/purchase/cart}" method="get">-->
+
+<!--	        <button type="submit">-->
+<!--	            レジに進む-->
+<!--	        </button>-->
+
+<!--	    </form>-->
+
+<!--	</div>-->
 
 	
 	
 	<!-- TOP画面へ -->
 	<form th:action="@{/}" method="get">
 	
-	    <button type="submit">
+	    <button type="submit" class="btn btn-blue">
 	        TOP画面に戻る
 	    </button>
 	
 	</form>
 	
+	</main>
 	
 	<div th:replace="~{common/footer :: footer}"></div>
 

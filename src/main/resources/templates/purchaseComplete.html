@@ -5,16 +5,22 @@
 <head>
     <meta charset="UTF-8">
     <title>購入完了画面</title>
+	<!-- 共通CSS -->
+	    <link rel="stylesheet" th:href="@{/css/common.css}">
+
+	    <!-- 購入完了画面専用CSS -->
+	    <link rel="stylesheet" th:href="@{/css/complete.css}">
 </head>
 
 <body>
 
-    <h1>購入完了画面</h1>
+    
 
     <div th:replace="~{common/header :: header}"></div>
+	<h1>購入完了画面</h1>
 	
-
-	<h2>注文完了</h2>
+	<main class="purchase-complete-page">
+	<h2 class="order-complete">注文完了</h2>
 
 
 	<!-- 商品情報 -->
@@ -50,61 +56,66 @@
 
 <!--	</div>-->
 <!-- 単品購入 -->
-<div th:if="${product != null}">
+<div th:if="${product != null}" class="purchase-info">
 
-    <div>
+    <div class="info-row">
         <img
             th:src="@{${product.imgPath}}"
             alt="商品画像"
             width="200">
     </div>
 
-    <div>
+    <div class="info-row">
         商品名：
         <span th:text="${product.productName}"></span>
     </div>
 
-    <div>
+    <div class="info-row">
         数量：
         <span th:text="${quantity}"></span>
     </div>
 
-    <div>
+    <div class="info-row">
         税込価格：
         <span
             th:text="${#numbers.formatInteger(totalAmount, 3, 'COMMA')}">
         </span>
         円
     </div>
+	
+	<div class="info-row">
+        住所：
+        <span th:text="${completeAddress}"></span>
+    </div>
 
 </div>
 
 
 <!-- カート購入 -->
-<div th:if="${cartList != null}">
+<div th:if="${cartList != null}" class="purchase-info">
 
     <div th:each="cart : ${cartList}">
 
         <hr>
 
-        <div>
+        <div class="info-row">
             <img
                 th:src="@{${cart.product.imgPath}}"
                 alt="商品画像"
                 width="200">
         </div>
 
-        <div>
+        <div class="info-row">
             商品名：
             <span th:text="${cart.product.productName}"></span>
         </div>
 
-        <div>
+        <div class="info-row">
             数量：
             <span th:text="${cart.quantity}"></span>
         </div>
 
-        <div>
+        <div class="info-row">
             税込価格：
             <span
                 th:text="${cart.product.includeTax * cart.quantity}">
@@ -112,7 +123,7 @@
             円
         </div>
 		
-		<div>
+		<div class="info-row">
 	        住所：
 	        <span th:text="${completeAddress}"></span>
 	    </div>
@@ -130,18 +141,29 @@
 	<br>
 
 	<!-- TOP画面へ -->
-	<div>
+	<div class="top-button-area">
 
 	    <a th:href="@{/}">
-	        <button type="button">
+	        <button
+	            type="button"
+	            class="confirm-button">
 	            TOP画面へ戻る
 	        </button>
 	    </a>
 
 	</div>
+<!--	<div class="top-button-area">-->
+
+<!--	    <a th:href="@{/}" >-->
+<!--	        <button type="button">-->
+<!--	            TOP画面へ戻る-->
+<!--	        </button>-->
+<!--	    </a>-->
+
+<!--	</div>-->
 
 
-
+	</main>
     <div th:replace="~{common/footer :: footer}"></div>
 
 </body>

@@ -1,0 +1,172 @@
+/* =========================
+   口コミ投稿画面
+========================= */
+
+/* 画面全体 */
+.review-page {
+    margin: 0;
+    padding: 30px 10px;
+
+    font-family: Arial, "Hiragino Kaku Gothic ProN",
+                 "Yu Gothic", Meiryo, sans-serif;
+
+    color: #222;
+
+    /* 添付画像の薄いグリッド */
+    background-color: #fff;
+    
+}
+
+
+/* =========================
+   タイトル
+========================= */
+
+.review-page h1 {
+    margin: 0 0 20px 0;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+
+/* =========================
+   フォーム
+========================= */
+
+.review-form {
+    width: 100%;
+}
+
+
+/* 各入力項目 */
+.review-form .form-row {
+    margin-bottom: 14px;
+}
+
+
+/* ラベル */
+.review-form label {
+    display: block;
+
+    margin-bottom: 5px;
+
+    font-size: 14px;
+    font-weight: bold;
+}
+
+
+/* =========================
+   テキスト入力
+========================= */
+
+.review-form input[type="text"],
+.review-form input[type="email"] {
+    box-sizing: border-box;
+
+    width: 100%;
+    height: 29px;
+
+    padding: 4px 10px;
+
+    border: 1px solid #ddd;
+    border-radius: 4px;
+
+    background-color: #fff;
+
+    font-size: 14px;
+}
+
+
+/* =========================
+   評価
+========================= */
+
+.review-form .rating-select {
+    width: 145px;
+    height: 29px;
+
+    padding: 4px 10px;
+
+    border: 1px solid #ddd;
+    border-radius: 4px;
+
+    background-color: #fff;
+
+    font-size: 14px;
+}
+
+
+/* =========================
+   コメント
+========================= */
+
+.review-form textarea {
+    box-sizing: border-box;
+
+    width: 100%;
+    height: 64px;
+
+    padding: 8px 10px;
+
+    border: 1px solid #ddd;
+    border-radius: 4px;
+
+    background-color: #fff;
+
+    font-size: 14px;
+
+    resize: vertical;
+}
+
+
+/* =========================
+   ファイル選択
+========================= */
+
+.review-form .file-row {
+    margin-top: 10px;
+    margin-bottom: 12px;
+}
+
+.review-form input[type="file"] {
+    box-sizing: border-box;
+
+    width: 100%;
+    height: 29px;
+
+    border: 1px solid #ddd;
+    border-radius: 4px;
+
+    background-color: #fff;
+
+    font-size: 13px;
+}
+
+
+/* =========================
+   投稿ボタン
+========================= */
+
+.review-form .button-area {
+    text-align: center;
+
+    margin-top: 10px;
+}
+
+.review-form .submit-button {
+    border: none;
+    border-radius: 5px;
+
+    background-color: #1976d2;
+    color: #fff;
+
+    padding: 6px 14px;
+
+    font-size: 14px;
+
+    cursor: pointer;
+}
+
+.review-form .submit-button:hover {
+    background-color: #1565c0;
+}

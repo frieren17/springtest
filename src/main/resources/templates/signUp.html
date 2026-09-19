@@ -3,45 +3,54 @@
 <head>
 <meta charset="UTF-8">
 <title>新規登録</title>
+<link rel="stylesheet" th:href="@{/css/signup.css}">
 </head>
 <body>
-	<h2>ユーザー新規登録画面</h2>
-
-	<form th:action="@{/signup}"
-	      th:object="${userRequest}"
-	      method="post">
-
-	    <div>
-	        ユーザー名
-	        <input type="text" th:field="*{userName}">
-	    </div>
-
-	    <div>
-	        メールアドレス
-	        <input type="email" th:field="*{email}">
-	    </div>
-
-	    <div>
-	        パスワード
-	        <input type="password" th:field="*{password}">
-	    </div>
-
-	    <div>
-	        パスワード(確認用)
-	        <input type="password" th:field="*{confirmPassword}">
-	    </div>
-
-	    <button type="submit">
-	        登録
-	    </button>
+	<main class="signup-container">
 		
-		<button type="button"
-                th:onclick="|location.href='@{/loginOnSession}'|">
-            戻る
-        </button>
-
-	</form>
-
-	</body>
+		<h1>ユーザー新規登録画面</h1>
+	
+		<form class="signup-form"
+			th:action="@{/signup}"
+		    th:object="${userRequest}"
+		    method="post">
+	
+		    <div class="form-group">
+		        <label>ユーザー名</label>
+		        <input type="text" th:field="*{userName}">
+		    </div>
+	
+		    <div class="form-group">
+		        <label>メールアドレス</label>
+		        <input type="email" th:field="*{email}">
+		    </div>
+	
+		    <div class="form-group">
+		        <label>パスワード</label>
+		        <input type="password" th:field="*{password}">
+		    </div>
+	
+		    <div class="form-group">
+				<label>パスワード（確認用）</label>
+				<input type="password" th:field="*{confirmPassword}">
+		    </div>
+	
+			<div class="signup-buttons">
+	
+	            <button type="submit"
+	                    class="register-button">
+	                登録
+	            </button>
+	
+	            <button type="button"
+	                    class="back-button"
+	                    th:onclick="|location.href='@{/loginOnSession}'|">
+	                戻る
+	            </button>
+	
+	        </div>
+	
+		</form>
+	</main>
 </body>
 </html>
