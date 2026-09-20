@@ -1,30 +1,3 @@
-/*package jp.co.sss.cytech.controller;
-
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
-
-import jp.co.sss.cytech.dto.ReviewRequest;
-import jp.co.sss.cytech.service.ReviewService;
-
-@RestController
-@RequestMapping("/reviews")
-public class reviewController {
-	private final ReviewService reviewService;
-
-    public reviewController(ReviewService reviewService) {
-        this.reviewService = reviewService;
-    }
-
-    @PostMapping
-    public ResponseEntity<?> createReview(@RequestBody ReviewRequest request) {
-        reviewService.createReview(request);
-        return ResponseEntity.ok().build();
-    }
-}*/
-
 package jp.co.sss.cytech.controller;
 
 import java.nio.file.Files;
@@ -114,7 +87,6 @@ public class reviewController {
 
         reviewService.createReview(request);
 
-        /*return "redirect:/product/detail/" + productId;*/
      // 投稿後TOPへ戻る
         return "redirect:/product/list";
     }

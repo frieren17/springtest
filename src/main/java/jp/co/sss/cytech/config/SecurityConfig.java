@@ -34,10 +34,6 @@ public class SecurityConfig {
     		    ).permitAll()
     		    .anyRequest().authenticated()
     		)
-//            .authorizeHttpRequests(auth -> auth
-//                .requestMatchers("/login", "/signup").permitAll()
-//                .anyRequest().authenticated()
-//            )
 
             // ログイン設定
             .formLogin(form -> form
@@ -56,7 +52,7 @@ public class SecurityConfig {
         return http.build();
     }
 
-    // パスワード暗号化（超重要）
+    // パスワード暗号化
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();

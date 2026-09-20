@@ -1,8 +1,11 @@
 package jp.co.sss.cytech.form;
 
 public class LoginForm {
+	
 	private Integer userId;
+	
 	private String password;
+	
 	public Integer getUserId() {
 		return userId;
 	}
@@ -15,6 +18,5 @@ public class LoginForm {
 	public void setPassword(String password) {
 		this.password = password;
 	}
-	
 	
 }

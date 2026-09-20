@@ -19,10 +19,6 @@ public class LoginUserDetails implements UserDetails {
         return user;
     }
 
-//    @Override
-//    public String getUsername() {
-//        return user.getEmail();
-//    }
     public String getUserName() {
         return user.getUserName();
     }

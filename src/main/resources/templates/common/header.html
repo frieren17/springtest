@@ -5,8 +5,8 @@
 <title>Insert title here</title>
 </head>
 <body>
-
 	<header th:fragment="layout-header" class="site-header">
+		
 	<div class="header-logo">Cytech EC.</div>
 		
 		<form th:action="@{/product/search}" method="get">
@@ -36,6 +36,7 @@
 			<a th:href="@{/mypage}" class="mypage-button">
 	            マイページ
 	        </a>
+			
 			<div class="user-info">
 				<span>ユーザー名：</span>
 				<span th:text="${loginUser?.userName}"></span>

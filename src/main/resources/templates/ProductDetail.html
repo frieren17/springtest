@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <title>商品詳細画面</title>
 <link rel="stylesheet" th:href="@{/css/common.css}">
-<link rel="stylesheet" th:href="@{/css/product-detail.css}">
+<link rel="stylesheet" th:href="@{/css/productDetail.css}">
 </head>
 <body th:attr="
     data-price=${product.price},
@@ -52,8 +52,7 @@
 				</p>
 			</div>
 	
-	
-	
+
 			<!-- カート追加 -->
 			<div class="cart-area">
 				<form th:action="@{/cart/add/{id}(id=${product.productId})}" method="post">
@@ -92,8 +91,6 @@
 				        <span th:text="${product.stock}"></span>
 				    </p>
 				</div>
-				
-				
 		
 			</div>
 		</section>
@@ -164,61 +161,3 @@
 	
 </body>
 </html>
-<!--	<script th:inline="javascript">-->
-
-<!--	    const price = /*[[${product.price}]]*/ 0;-->
-<!--	    const includeTax = /*[[${product.includeTax}]]*/ 0;-->
-
-<!--	    const quantitySelect =-->
-<!--	        document.getElementById("quantity");-->
-
-<!--	    const subtotalElement =-->
-<!--	        document.getElementById("subtotal");-->
-
-<!--	    const totalElement =-->
-<!--	        document.getElementById("total");-->
-
-<!--	    const cartQuantity =-->
-<!--	        document.getElementById("cartQuantity");-->
-			
-<!--		const purchaseQuantity =-->
-<!--		    document.getElementById("purchaseQuantity");-->
-
-
-<!--	    function updatePrice() {-->
-
-<!--	        const quantity =-->
-<!--	            Number(quantitySelect.value);-->
-
-<!--	        const subtotal =-->
-<!--	            price * quantity;-->
-
-<!--	        const total =-->
-<!--	            includeTax * quantity;-->
-
-<!--	        subtotalElement.textContent =-->
-<!--	            subtotal.toLocaleString();-->
-
-<!--	        totalElement.textContent =-->
-<!--	            total.toLocaleString();-->
-
-<!--	        cartQuantity.value = quantity;-->
-			
-<!--			purchaseQuantity.value = quantity;-->
-<!--	    }-->
-
-
-<!--	    quantitySelect.addEventListener(-->
-<!--	        "change",-->
-<!--	        updatePrice-->
-<!--	    );-->
-
-
-<!--	    // 初期表示-->
-<!--	    updatePrice();-->
-
-<!--	</script>-->
-
-<!--</bodyth:attr="-->
-<!--    data-price=${product.price},-->
-<!--    data-include-tax=${product.includeTax}">-->

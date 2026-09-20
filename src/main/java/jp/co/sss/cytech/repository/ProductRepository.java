@@ -1,19 +1,3 @@
-/**
- * 
- */
-//package jp.co.sss.cytech.repository;
-//
-//import org.springframework.data.jpa.repository.JpaRepository;
-//
-//import jp.co.sss.cytech.entity.Product;
-//
-///**
-// * 
-// */
-//public interface ProductRepository extends JpaRepository<Product, Integer> {
-//
-//}
-
 package jp.co.sss.cytech.repository;
 
 import java.util.List;

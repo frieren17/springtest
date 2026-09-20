@@ -1,264 +1,246 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-
 <head>
-
     <meta charset="UTF-8">
-
     <title>購入詳細画面</title>
 	<link rel="stylesheet" th:href="@{/css/common.css}">
 	<link rel="stylesheet" th:href="@{/css/purchaseDetail.css}">
-
-
 </head>
-
-
 <body>
 
-<div th:replace="~{common/header :: header}"></div>
-
-
-<h1>購入詳細画面</h1>
-
-<main class="purchase-detail-page">
-
-<!--<form-->
-<!--    th:action="@{/purchase/confirm}"-->
-<!--    method="post"-->
-<!--    id="purchaseForm">-->
-<form
-    th:action="${cartList != null}
-        ? @{/purchase/cart/confirm}
-        : @{/purchase/confirm}"
-    method="post"
-    id="purchaseForm">
-
-
-
-
-    <!-- ===================================== -->
-    <!-- 受け取り場所 -->
-    <!-- ===================================== -->
-
-    <div class="section-title">
-        ＜受け取り場所＞
-    </div>
-
-
-    <!-- 住所1 -->
-    <div class="choice-row">
-
-        <input
-            type="radio"
-            name="addressChoice"
-            value="1"
-            checked>
-
-        <div class="choice-box">
-
-            <label class="form-label">
-                名前：
-            </label>
-
-            <input
-                type="text"
-                id="name1"
-                class="name-input"
-                th:value="${user.userName}">
-
-
-            <label class="form-label">
-                住所
-            </label>
-
-            <input
-                type="text"
-                id="address1"
-                class="form-input"
-                th:value="${user.userAddress}"
-                placeholder="住所">
-
-
-            <label class="form-label">
-                アパート名等
-            </label>
-
-            <input
-                type="text"
-                id="apartment1"
-                class="form-input"
-                placeholder="アパート名等">
-
-        </div>
-
-    </div>
-
-
-    <!-- 住所2 -->
-    <div class="choice-row">
-
-        <input
-            type="radio"
-            name="addressChoice"
-            value="2">
-
-        <div class="choice-box">
-
-            <label class="form-label">
-                名前：
-            </label>
-
-            <input
-                type="text"
-                id="name2"
-                class="name-input"
-                placeholder="名前">
-
-
-            <label class="form-label">
-                住所
-            </label>
-
-            <input
-                type="text"
-                id="address2"
-                class="form-input"
-                placeholder="住所">
-
-
-            <label class="form-label">
-                アパート名等
-            </label>
-
-            <input
-                type="text"
-                id="apartment2"
-                class="form-input"
-                placeholder="アパート名等">
-
-        </div>
-
-    </div>
-
-
-    <!-- ===================================== -->
-    <!-- お支払い情報 -->
-    <!-- ===================================== -->
-
-    <div class="payment-section">
-
-        <div class="section-title">
-            ＜お支払い情報＞
-        </div>
-
-
-        <!-- カード1 -->
-        <div class="choice-row">
-
-            <input
-                type="radio"
-                name="cardChoice"
-                value="1"
-                checked>
-
-            <div class="choice-box">
-
-                <input
-                    type="text"
-                    id="cardNumber1"
-                    class="card-number"
-                    placeholder="カード番号">
-
-                <br>
-
-                <input
-                    type="text"
-                    id="cardExpiry1"
-                    class="card-expiry"
-                    placeholder="有効期限 DD/YY">
-
-            </div>
-
-        </div>
-
-
-        <!-- カード2 -->
-        <div class="choice-row">
-
-            <input
-                type="radio"
-                name="cardChoice"
-                value="2">
-
-            <div class="choice-box">
-
-                <input
-                    type="text"
-                    id="cardNumber2"
-                    class="card-number"
-                    placeholder="カード番号">
-
-                <br>
-
-                <input
-                    type="text"
-                    id="cardExpiry2"
-                    class="card-expiry"
-                    placeholder="有効期限 DD/YY">
-
-            </div>
-
-        </div>
-
-    </div>
-
-
-    <!-- ===================================== -->
-    <!-- Controllerへ送る値 -->
-    <!-- ===================================== -->
-
-	<div th:if="${product != null}">
-	    <input
-	        type="hidden"
-	        name="productId"
-	        th:value="${product.productId}">
+	<div th:replace="~{common/header :: header}"></div>
 	
-	    <input
-	        type="hidden"
-	        name="quantity"
-	        th:value="${quantity}">
-	</div>
-
-    <input
-        type="hidden"
-        name="deliveryAddress"
-        id="deliveryAddress">
-
-    <input
-        type="hidden"
-        name="paymentMethod"
-        id="paymentMethod">
-
-
-    <!-- 確認ボタン -->
-
-    <button
-        type="submit"
-        class="confirm-button">
-
-        確認
-
-    </button>
-
-
-</form>
-
-</main>
-<div th:replace="~{common/footer :: footer}"></div>
-
-<script th:src="@{/js/purchase-detail.js}"></script>
-
-
+	<h1>購入詳細画面</h1>
+	
+	<main class="purchase-detail-page">
+	
+		<form
+		    th:action="${cartList != null}
+		        ? @{/purchase/cart/confirm}
+		        : @{/purchase/confirm}"
+		    method="post"
+		    id="purchaseForm">
+		
+		
+		    <!-- ===================================== -->
+		    <!-- 受け取り場所 -->
+		    <!-- ===================================== -->
+		
+		    <div class="section-title">
+		        ＜受け取り場所＞
+		    </div>
+		
+		
+		    <!-- 住所1 -->
+		    <div class="choice-row">
+		
+		        <input
+		            type="radio"
+		            name="addressChoice"
+		            value="1"
+		            checked>
+		
+		        <div class="choice-box">
+		
+		            <label class="form-label">
+		                名前：
+		            </label>
+		
+		            <input
+		                type="text"
+		                id="name1"
+		                class="name-input"
+		                th:value="${user.userName}">
+		
+		
+		            <label class="form-label">
+		                住所
+		            </label>
+		
+		            <input
+		                type="text"
+		                id="address1"
+		                class="form-input"
+		                th:value="${user.userAddress}"
+		                placeholder="住所">
+		
+		
+		            <label class="form-label">
+		                アパート名等
+		            </label>
+		
+		            <input
+		                type="text"
+		                id="apartment1"
+		                class="form-input"
+		                placeholder="アパート名等">
+		
+		        </div>
+		
+		    </div>
+		
+		
+		    <!-- 住所2 -->
+		    <div class="choice-row">
+		
+		        <input
+		            type="radio"
+		            name="addressChoice"
+		            value="2">
+		
+		        <div class="choice-box">
+		
+		            <label class="form-label">
+		                名前：
+		            </label>
+		
+		            <input
+		                type="text"
+		                id="name2"
+		                class="name-input"
+		                placeholder="名前">
+		
+		
+		            <label class="form-label">
+		                住所
+		            </label>
+		
+		            <input
+		                type="text"
+		                id="address2"
+		                class="form-input"
+		                placeholder="住所">
+		
+		
+		            <label class="form-label">
+		                アパート名等
+		            </label>
+		
+		            <input
+		                type="text"
+		                id="apartment2"
+		                class="form-input"
+		                placeholder="アパート名等">
+		
+		        </div>
+		
+		    </div>
+		
+		
+		    <!-- ===================================== -->
+		    <!-- お支払い情報 -->
+		    <!-- ===================================== -->
+		
+		    <div class="payment-section">
+		
+		        <div class="section-title">
+		            ＜お支払い情報＞
+		        </div>
+		
+		
+		        <!-- カード1 -->
+		        <div class="choice-row">
+		
+		            <input
+		                type="radio"
+		                name="cardChoice"
+		                value="1"
+		                checked>
+		
+		            <div class="choice-box">
+		
+		                <input
+		                    type="text"
+		                    id="cardNumber1"
+		                    class="card-number"
+		                    placeholder="カード番号">
+		
+		                <input
+		                    type="text"
+		                    id="cardExpiry1"
+		                    class="card-expiry"
+		                    placeholder="有効期限 DD/YY">
+		
+		            </div>
+		
+		        </div>
+		
+		
+		        <!-- カード2 -->
+		        <div class="choice-row">
+		
+		            <input
+		                type="radio"
+		                name="cardChoice"
+		                value="2">
+		
+		            <div class="choice-box">
+		
+		                <input
+		                    type="text"
+		                    id="cardNumber2"
+		                    class="card-number"
+		                    placeholder="カード番号">
+		
+		
+		                <input
+		                    type="text"
+		                    id="cardExpiry2"
+		                    class="card-expiry"
+		                    placeholder="有効期限 DD/YY">
+		
+		            </div>
+		
+		        </div>
+		
+		    </div>
+		
+		
+		    <!-- ===================================== -->
+		    <!-- Controllerへ送る値 -->
+		    <!-- ===================================== -->
+		
+			<div th:if="${product != null}">
+			    <input
+			        type="hidden"
+			        name="productId"
+			        th:value="${product.productId}">
+			
+			    <input
+			        type="hidden"
+			        name="quantity"
+			        th:value="${quantity}">
+			</div>
+		
+		    <input
+		        type="hidden"
+		        name="deliveryAddress"
+		        id="deliveryAddress">
+		
+		    <input
+		        type="hidden"
+		        name="paymentMethod"
+		        id="paymentMethod">
+		
+		
+		    <!-- 確認ボタン -->
+		
+		    <button
+		        type="submit"
+		        class="confirm-button">
+		
+		        確認
+		
+		    </button>
+		
+		
+		</form>
+	
+	</main>
+	
+	<div th:replace="~{common/footer :: footer}"></div>
+	
+	<script th:src="@{/js/purchase-detail.js}"></script>
 
 </body>
 

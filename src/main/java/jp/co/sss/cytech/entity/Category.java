@@ -33,7 +33,6 @@ public class Category {
         this.categoryId = categoryId;
     }
 
-
     public String getCategoryName() {
         return categoryName;
     }

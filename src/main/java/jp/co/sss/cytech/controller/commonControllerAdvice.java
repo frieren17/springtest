@@ -1,24 +1,3 @@
-//package jp.co.sss.cytech.controller;
-//
-//import jakarta.servlet.http.HttpSession;
-//
-//import org.springframework.web.bind.annotation.ControllerAdvice;
-//import org.springframework.web.bind.annotation.ModelAttribute;
-//
-//import jp.co.sss.cytech.entity.User;
-//
-//@ControllerAdvice
-//public class commonControllerAdvice {
-//
-//    @ModelAttribute("loginUser")
-//    public User loginUser(HttpSession session) {
-//    	
-//        return (User) session.getAttribute("loginUser");
-//
-//    }
-//
-//}
-
 package jp.co.sss.cytech.controller;
 
 import java.util.List;
